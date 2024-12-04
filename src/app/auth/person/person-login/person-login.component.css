@@ -1,0 +1,44 @@
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.invalid-feedback {
+  color: red;
+  font-size: 0.875em;
+}
+
+button {
+  margin-right: 10px;
+}
+
+.btn-outline-secondary {
+  width: 75px;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.forgotPasswordLink {
+  text-align: right; /* Alineación a la derecha */
+  margin-bottom: 10px;
+}
+
+.signupLink {
+  margin-top: 10px;
+}

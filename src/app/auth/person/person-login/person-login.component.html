@@ -1,0 +1,61 @@
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+        />
+        <div class="invalid-feedback" *ngIf="loginForm.get('email')?.errors?.['required']">
+          El email es obligatorio.
+        </div>
+        <div class="invalid-feedback" *ngIf="loginForm.get('email')?.errors?.['email']">
+          Introduce un email válido.
+        </div>
+      </div>
+  
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+          />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+            {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+        <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors?.['required']">
+          La contraseña es obligatoria.
+        </div>
+      </div>
+
+      <section class="forgotPasswordLink">
+        <a href="forgot-password-person">¿Olvidaste la contraseña?</a>
+      </section>
+  
+      <!-- Botón de Iniciar Sesión -->
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+        Iniciar Sesión
+      </button>
+  
+      <!-- Iniciar sesión con Google -->
+      <button type="button" class="btn btn-secondary" (click)="loginWithGoogle()">
+        Iniciar sesión con Google
+      </button>
+      <section class="signupLink">
+        <Label>¿No tienes una cuenta? </Label><a href="signup-person"> Regístrate</a>
+      </section>
+
+    </form>
+  </div>
+  
