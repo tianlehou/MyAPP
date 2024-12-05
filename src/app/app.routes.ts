@@ -4,7 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { PersonRegisterComponent } from './auth/person/person-register/person-register.component';
 import { PersonLoginComponent } from './auth/person/person-login/person-login.component';
 import { ForgotPasswordComponent } from './auth/person/person-forgot-password/person-forgot-password.component';
-import { ProfileComponent } from './pages/person/profile/profile.component';
+import { ProfileComponent } from './pages/users/person/profile/profile.component';
 import { CompanyRegisterComponent } from './auth/bussiness/company-register/company-register.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 

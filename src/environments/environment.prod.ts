@@ -3,6 +3,7 @@ export const environment = {
   firebase: {
     apiKey: "AIzaSyC27hFjRST8mBuTi8pHj-cHchaDtTNHaA0",
     authDomain: "contratapp-eed2e.firebaseapp.com",
+    databaseURL: "https://contratapp-eed2e-default-rtdb.firebaseio.com",
     projectId: "contratapp-eed2e",
     storageBucket: "contratapp-eed2e.firebasestorage.app",
     messagingSenderId: "639244412825",

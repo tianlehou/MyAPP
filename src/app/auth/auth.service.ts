@@ -8,13 +8,18 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from '@angular/fire/auth';
+import { Database, set, ref } from '@angular/fire/database';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private db: Database,
+    private router: Router
+  ) {}
 
   // Método para registrar con email y contraseña
   registerWithEmail(email: string, password: string) {
@@ -51,4 +56,10 @@ export class AuthService {
   logout() {
     return this.auth.signOut().then(() => this.router.navigate(['/']));
   }
+
+    // Guardar datos adicionales en Firebase Realtime Database
+    saveUserData(uid: string, data: { fullName: string; email: string }) {
+      const userRef = ref(this.db, `users/${uid}`);
+      return set(userRef, data);
+    }
 }

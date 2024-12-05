@@ -1,5 +1,5 @@
-import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -16,10 +16,18 @@ bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
+    provideFirebaseApp(() => {
+      const app = initializeApp(environment.firebase);
+      console.log('Firebase initialized:', app.name);
+      return app;
+    }),
+    provideAuth(() => {
+      console.log('Firebase Auth service initializing');
+      const auth = getAuth();
+      return auth;
+    }),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     provideDatabase(() => getDatabase()),
   ]
-}).catch((err) => console.error(err));
+}).catch((err) => console.error('Error during app bootstrap:', err));
