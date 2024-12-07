@@ -6,12 +6,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../../services/auth.service';
+import { RouterModule } from '@angular/router'; // Importa RouterModule
 
 @Component({
   selector: 'app-person-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './person-login.component.html',
   styleUrls: ['./person-login.component.css'],
 })

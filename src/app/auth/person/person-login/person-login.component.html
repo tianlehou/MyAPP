@@ -40,20 +40,21 @@
       </div>
 
       <section class="forgotPasswordLink">
-        <a href="forgot-password-person">¿Olvidaste la contraseña?</a>
+        <a [routerLink]="'/forgot-password-person'">¿Olvidaste la contraseña?</a>
       </section>
-  
-      <!-- Botón de Iniciar Sesión -->
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
-        Iniciar Sesión
-      </button>
-  
+      
       <!-- Iniciar sesión con Google -->
       <button type="button" class="btn btn-secondary" (click)="loginWithGoogle()">
-        Iniciar sesión con Google
+        Iniciar con Google
       </button>
+      
+          <!-- Botón de Iniciar Sesión -->
+          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+            Iniciar Sesión
+          </button>
+
       <section class="signupLink">
-        <Label>¿No tienes una cuenta? </Label><a href="signup-person"> Regístrate</a>
+        <Label>¿No tienes una cuenta? </Label><a [routerLink]="'/signup-person'"> Regístrate</a>
       </section>
 
     </form>

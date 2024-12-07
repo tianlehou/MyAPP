@@ -38,3 +38,17 @@
     cursor: not-allowed;
   }
   
+  .input-group {
+    display: flex;
+    align-items: center;
+    /* gap: 10px;  */
+  }
+  
+  .input-group input {
+    flex: 1; /* El input ocupa el espacio restante */
+  }
+  
+  .input-group button {
+    width: 85px; /* El botón se ajusta a su contenido */
+  }
+  

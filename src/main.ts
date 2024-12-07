@@ -18,11 +18,9 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withComponentInputBinding()),
     provideFirebaseApp(() => {
       const app = initializeApp(environment.firebase);
-      console.log('Firebase initialized:', app.name);
       return app;
     }),
     provideAuth(() => {
-      console.log('Firebase Auth service initializing');
       const auth = getAuth();
       return auth;
     }),
