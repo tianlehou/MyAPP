@@ -25,3 +25,7 @@
     text-decoration: none;
     cursor: pointer;
   }
+
+  .haveAccount {
+    margin-top: 20px;
+  }

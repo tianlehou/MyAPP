@@ -10,26 +10,42 @@ export class DatabaseService {
   }
 
   // Guardar datos adicionales en Firebase Realtime Database
-  saveUserData(uid: string, data: { fullName: string; email: string }) {
+  saveUserData(uid: string, data: { fullName: string; email: string }): Promise<void> {
     const userRef = ref(this.db, `users/${uid}`);
-    return set(userRef, data);
+    return set(userRef, data)
+      .then(() => console.log('Datos guardados exitosamente'))
+      .catch((error) => {
+        console.error('Error al guardar los datos:', error);
+        throw error;
+      });
   }
 
   // Obtener datos de usuario desde Firebase Realtime Database
-  getUserData(uid: string) {
+  async getUserData(uid: string): Promise<any> {
     const userRef = ref(this.db, `users/${uid}`);
-    return get(userRef).then((snapshot) => {
+    try {
+      const snapshot = await get(userRef);
       if (snapshot.exists()) {
         return snapshot.val();
       } else {
-        throw new Error('No se encontraron datos para este usuario.');
+        console.error('No se encontraron datos para el usuario:', uid);
+        return null;
       }
-    });
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+      throw error;
+    }
   }
 
   // Actualizar datos de usuario en Firebase Realtime Database
-  updateUserData(uid: string, data: Partial<{ fullName: string; email: string; phone: string; experience: string; profilePicture: string }>) {
+  async updateUserData(uid: string, data: Partial<{ fullName: string; email: string; phone?: string; experience?: string; profilePicture?: string }>): Promise<void> {
     const userRef = ref(this.db, `users/${uid}`);
-    return update(userRef, data);
+    try {
+      await update(userRef, data);
+      console.log('Datos actualizados exitosamente');
+    } catch (error) {
+      console.error('Error al actualizar los datos:', error);
+      throw error;
+    }
   }
 }

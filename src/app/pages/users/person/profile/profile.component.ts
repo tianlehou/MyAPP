@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
 
@@ -26,13 +24,13 @@ export class ProfileComponent implements OnInit {
     private databaseService: DatabaseService
   ) {}
 
+  /** Inicializa el formulario */
   ngOnInit(): void {
     this.initializeForm();
     this.setEditableFields();
     this.loadAuthenticatedUser();
   }
 
-  /** Inicializa el formulario */
   private initializeForm(): void {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -67,7 +65,10 @@ export class ProfileComponent implements OnInit {
 
   /** Carga los datos del usuario desde Firebase */
   private async loadUserData(): Promise<void> {
-    if (!this.userId) return;
+    if (!this.userId) {
+      console.error('Error: Usuario no autenticado.');
+      return;
+    }
 
     try {
       const userData = await this.databaseService.getUserData(this.userId);
@@ -86,7 +87,11 @@ export class ProfileComponent implements OnInit {
   /** Alterna el estado de edición de un campo */
   toggleEdit(field: string): void {
     this.editableFields[field] = !this.editableFields[field];
+    if (!this.editableFields[field]) {
+      this.onSubmit();
+    }
   }
+  
 
   /** Maneja la selección de archivos */
   onFileSelected(event: Event): void {
@@ -107,63 +112,20 @@ export class ProfileComponent implements OnInit {
       alert('Por favor, completa correctamente todos los campos requeridos.');
       return;
     }
-
+  
     if (!this.userId) {
       alert('Error: Usuario no autenticado.');
       return;
     }
-
+  
     try {
-      const profilePicUrl = this.selectedFile
-        ? await this.uploadImageToFirebase(this.selectedFile)
-        : this.profileForm.value.profilePicture;
-
-      const db = getFirestore();
-      const userDocRef = doc(db, `users/${this.userId}`);
-
-      await setDoc(
-        userDocRef,
-        {
-          ...this.profileForm.value,
-          profilePicture: profilePicUrl,
-        },
-        { merge: true }
-      );
-
-      alert('Perfil guardado con éxito');
+      const formData = this.profileForm.value;
+      await this.databaseService.updateUserData(this.userId, formData); // Llama al método para actualizar
+      alert('Datos actualizados exitosamente.');
     } catch (error) {
-      console.error('Error al guardar el perfil:', error);
-      alert('Ocurrió un error al guardar el perfil. Inténtalo nuevamente.');
+      console.error('Error al actualizar el perfil:', error);
+      alert('Ocurrió un error al actualizar los datos. Intenta nuevamente.');
     }
   }
-
-  /** Sube la imagen a Firebase Storage */
-  private async uploadImageToFirebase(file: File): Promise<string> {
-    const storage = getStorage();
-    const storageRef = ref(storage, `profilePictures/${this.userId}`);
-    await uploadBytes(storageRef, file);
-    return getDownloadURL(storageRef);
-  }
-
-  /** Sube la imagen a ImgBB (opcional) */
-  async uploadImageToImgBB(file: File): Promise<string> {
-    const formData = new FormData();
-    formData.append('image', file);
-    const apiKey = 'TU_API_KEY'; // Reemplaza con tu API key de ImgBB
-
-    const response = await fetch(
-      `https://api.imgbb.com/1/upload?key=${apiKey}`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Error al subir la imagen a ImgBB');
-    }
-
-    const result = await response.json();
-    return result.data.url;
-  }
+  
 }
