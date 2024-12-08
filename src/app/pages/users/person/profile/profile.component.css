@@ -1,54 +1,29 @@
 .profile-container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background: #f9f9f9;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input,
-  textarea,
-  button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .input-group {
-    display: flex;
-    align-items: center;
-    /* gap: 10px;  */
-  }
-  
-  .input-group input {
-    flex: 1; /* El input ocupa el espacio restante */
-  }
-  
-  .input-group button {
-    width: 85px; /* El botón se ajusta a su contenido */
-  }
-  
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  text-align: center; /* Centrar el contenido del contenedor */
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra todo horizontalmente */
+  position: relative; /* Permite posicionar el ícono independientemente */
+  margin-bottom: 20px;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center; /* Asegura el centrado del texto */
+  flex: 1; /* Toma todo el espacio disponible */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left; /* Asegura que los elementos dentro no estén centrados */
+}

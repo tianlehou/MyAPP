@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+body,
+footer {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Estilo para centrar los elementos en un contenedor */
+.display-flex-center {
+    display: flex;
+    /* Habilita el uso de flexbox */
+    align-items: center;
+    /* Alinea verticalmente los elementos */
+    justify-content: center;
+}
+
+.border-red {
+    border: red 1px solid;
+}

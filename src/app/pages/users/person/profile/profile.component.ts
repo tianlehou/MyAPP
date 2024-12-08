@@ -4,11 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
+import { Button2Component } from '../../../../shared/components/buttons/button2/button2.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,
+    Button2Component
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
@@ -16,7 +19,6 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   selectedFile: File | null = null;
   userId: string | null = null;
-  editableFields: { [key: string]: boolean } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +29,6 @@ export class ProfileComponent implements OnInit {
   /** Inicializa el formulario */
   ngOnInit(): void {
     this.initializeForm();
-    this.setEditableFields();
     this.loadAuthenticatedUser();
   }
 
@@ -37,18 +38,8 @@ export class ProfileComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.pattern('^\\+?[1-9]\\d{1,14}$')],
       experience: [''],
-      profilePicture: [''], // Imagen en Base64 o URL
+      profilePicture: [''],
     });
-  }
-
-  /** Establece los campos como no editables por defecto */
-  private setEditableFields(): void {
-    this.editableFields = {
-      name: false,
-      email: false,
-      phone: false,
-      experience: false,
-    };
   }
 
   /** Carga el usuario autenticado y sus datos */
@@ -56,7 +47,8 @@ export class ProfileComponent implements OnInit {
     this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.userId = user.uid;
-        await this.loadUserData();
+        console.log('Usuario autenticado:', this.userId);
+        await this.loadUserData(); // Asegura la carga de datos tras obtener userId
       } else {
         console.error('No se pudo obtener el usuario autenticado.');
       }
@@ -72,26 +64,18 @@ export class ProfileComponent implements OnInit {
 
     try {
       const userData = await this.databaseService.getUserData(this.userId);
+      console.log('Datos del usuario cargados:', userData);
       this.profileForm.patchValue({
-        name: userData.fullName || '',
-        email: userData.email || '',
-        phone: userData.phone || '',
-        experience: userData.experience || '',
-        profilePicture: userData.profilePicture || '',
+        name: userData?.fullName || '', // Mapear 'fullName' al campo 'name'
+        email: userData?.email || '',
+        phone: userData?.phone || '',
+        experience: userData?.experience || '',
+        profilePicture: userData?.profilePicture || '',
       });
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
   }
-
-  /** Alterna el estado de edición de un campo */
-  toggleEdit(field: string): void {
-    this.editableFields[field] = !this.editableFields[field];
-    if (!this.editableFields[field]) {
-      this.onSubmit();
-    }
-  }
-  
 
   /** Maneja la selección de archivos */
   onFileSelected(event: Event): void {
@@ -112,20 +96,26 @@ export class ProfileComponent implements OnInit {
       alert('Por favor, completa correctamente todos los campos requeridos.');
       return;
     }
-  
+
     if (!this.userId) {
       alert('Error: Usuario no autenticado.');
       return;
     }
-  
+
     try {
-      const formData = this.profileForm.value;
-      await this.databaseService.updateUserData(this.userId, formData); // Llama al método para actualizar
+      // Ajustar el nombre del campo a 'fullName'
+      const formData = {
+        ...this.profileForm.value,
+        fullName: this.profileForm.value.name, // Copiar el valor de 'name' a 'fullName'
+      };
+      delete formData.name; // Eliminar el campo 'name' si no es necesario
+
+      await this.databaseService.updateUserData(this.userId, formData);
       alert('Datos actualizados exitosamente.');
+      await this.loadUserData(); // Recarga los datos después de guardar
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
       alert('Ocurrió un error al actualizar los datos. Intenta nuevamente.');
     }
   }
-  
 }

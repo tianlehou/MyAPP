@@ -8,7 +8,7 @@ import { AuthCheckComponent } from './shared/components/auth-check/auth-check.co
   standalone: true,
   imports: [RouterOutlet,
     SidebarComponent,
-    AuthCheckComponent
+    // AuthCheckComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './auth/person/person-forgot-password/pe
 import { ProfileComponent } from './pages/users/person/profile/profile.component';
 import { CompanyRegisterComponent } from './auth/bussiness/company-register/company-register.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
+import { EditProfileComponent } from './pages/users/person/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'login-person', component: PersonLoginComponent },
   { path: 'forgot-password-person', component: ForgotPasswordComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
   { path: 'signup-company', component: CompanyRegisterComponent },
   { path: 'suscripciones', component: SubscriptionComponent },
   { path: '**', redirectTo: 'home' },

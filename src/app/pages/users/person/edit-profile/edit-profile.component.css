@@ -1,0 +1,111 @@
+/* Contenedor principal del perfil */
+.profile-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  text-align: center;
+  /* Centra el contenido del contenedor */
+}
+
+/* Encabezado de perfil */
+.profile-header {
+  display: flex;
+  /* Habilita el uso de flexbox */
+  align-items: center;
+  /* Alinea verticalmente los elementos */
+  justify-content: space-between;
+  /* Espacia los elementos: el h1 a la izquierda y el botón a la derecha */
+  width: 100%;
+  /* Asegura que el contenedor ocupe todo el ancho de la pantalla */
+  padding-bottom: 2em;
+}
+
+.profile-header h1 {
+  flex: 1;
+  /* Toma todo el espacio disponible, haciendo que el h1 se quede centrado */
+  text-align: center;
+  /* Centra el texto del h1 */
+  margin: 0;
+  /* Elimina márgenes por defecto */
+  font-weight: 400;
+  font-size: 1.5em;
+  position: relative;
+  left: 1em;
+}
+
+/* Estilos de los grupos de formularios */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+  /* Asegura que los elementos dentro no estén centrados */
+}
+
+/* Etiquetas dentro de los formularios */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Estilos de los inputs, textareas y botones */
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilo de los botones generales */
+button {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Estilo de los botones deshabilitados */
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilos del grupo de inputs */
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo de los inputs dentro del grupo de inputs */
+.input-group input {
+  flex: 1;
+  /* Permite que el input ocupe todo el espacio disponible */
+}
+
+/* Estilo de los botones dentro del grupo de inputs */
+.input-group button {
+  width: 85px;
+  /* Define un ancho fijo para el botón */
+}
+
+/* Estilos de los inputs de solo lectura */
+input[readonly] {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+}
+
+/* Estilo de los inputs que no son de solo lectura */
+input:not([readonly]) {
+  background-color: #fff;
+  border: 1px solid #007bff;
+}
+
+/* Estilos de los mensajes de error */
+.text-danger {
+  color: #e74c3c;
+  font-size: 0.875em;
+}
