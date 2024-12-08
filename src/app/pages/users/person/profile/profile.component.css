@@ -27,3 +27,15 @@
   margin-bottom: 15px;
   text-align: left; /* Asegura que los elementos dentro no estén centrados */
 }
+
+label {
+  font-size: 0.75em;
+}
+
+.form-control-static {
+  padding: 0 25px;
+  font-size: 1em;
+  font-style: italic;
+  color: #333;
+  background-color: #f9f9f9;
+}

@@ -7,7 +7,7 @@
   </div>
 
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <!-- Nombre -->
+    <!-- Nombre Completo -->
     <div class="form-group">
       <label for="name">Nombre Completo</label>
       <div class="input-group">
@@ -23,45 +23,41 @@
           class="btn btn-secondary"
           (click)="toggleEdit('name')"
         >
-          {{ editableFields["name"] ? "Guardar" : "Editar" }}
+          {{ editableFields['name'] ? 'Guardar' : 'Editar' }}
         </button>
       </div>
       <div
-        *ngIf="
-          profileForm.get('name')?.invalid && profileForm.get('name')?.touched
-        "
+        *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
         class="text-danger"
       >
         El nombre es obligatorio y debe tener al menos 3 caracteres.
       </div>
     </div>
 
-    <!-- Correo Electrónico -->
+    <!-- Cédula -->
     <div class="form-group">
-      <label for="email">Correo Electrónico</label>
+      <label for="cedula">Cédula</label>
       <div class="input-group">
         <input
-          id="email"
-          formControlName="email"
-          type="email"
+          id="cedula"
+          formControlName="cedula"
+          type="text"
           class="form-control"
-          [readonly]="!editableFields['email']"
+          [readonly]="!editableFields['cedula']"
         />
         <button
           type="button"
           class="btn btn-secondary"
-          (click)="toggleEdit('email')"
+          (click)="toggleEdit('cedula')"
         >
-          {{ editableFields["email"] ? "Guardar" : "Editar" }}
+          {{ editableFields['cedula'] ? 'Guardar' : 'Editar' }}
         </button>
       </div>
       <div
-        *ngIf="
-          profileForm.get('email')?.invalid && profileForm.get('email')?.touched
-        "
+        *ngIf="profileForm.get('cedula')?.invalid && profileForm.get('cedula')?.touched"
         class="text-danger"
       >
-        Introduce un correo válido.
+        La cédula es obligatoria.
       </div>
     </div>
 
@@ -81,36 +77,88 @@
           class="btn btn-secondary"
           (click)="toggleEdit('phone')"
         >
-          {{ editableFields["phone"] ? "Guardar" : "Editar" }}
+          {{ editableFields['phone'] ? 'Guardar' : 'Editar' }}
         </button>
       </div>
       <div
-        *ngIf="
-          profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched
-        "
+        *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched"
         class="text-danger"
       >
         Introduce un número de teléfono válido.
       </div>
     </div>
 
-    <!-- Experiencia Laboral -->
+    <!-- Dirección -->
     <div class="form-group">
-      <label for="experience">Experiencia Laboral</label>
+      <label for="direction">Dirección</label>
       <div class="input-group">
-        <textarea
-          id="experience"
-          formControlName="experience"
+        <input
+          id="direction"
+          formControlName="direction"
+          type="text"
           class="form-control"
-          rows="5"
-          [readonly]="!editableFields['experience']"
-        ></textarea>
+          [readonly]="!editableFields['direction']"
+        />
         <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="toggleEdit('direction')"
+        >
+          {{ editableFields['direction'] ? 'Guardar' : 'Editar' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Experiencia -->
+    <div class="form-group">
+      <label for="experience">Experiencia</label>
+      <div formArrayName="experience">
+        <div
+          *ngFor="let exp of experienceArray.controls; let i = index"
+          [formGroupName]="i"
+          class="experience-group"
+        >
+          <label>Año:</label>
+          <input
+            type="text"
+            formControlName="year"
+            [readonly]="!editableFields['experience']"
+            class="form-control"
+          />
+          <label>Rol:</label>
+          <input
+            type="text"
+            formControlName="role"
+            [readonly]="!editableFields['experience']"
+            class="form-control"
+          />
+          <label>Descripción:</label>
+          <textarea
+            formControlName="description"
+            [readonly]="!editableFields['experience']"
+            class="form-control"
+          ></textarea>
+          <button
           type="button"
           class="btn btn-secondary"
           (click)="toggleEdit('experience')"
         >
-          {{ editableFields["experience"] ? "Guardar" : "Editar" }}
+          {{ editableFields['experience'] ? 'Guardar' : 'Editar' }}
+        </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeExperience(i)"
+          >
+            Eliminar
+          </button>
+        </div>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="addExperience()"
+        >
+          Agregar Experiencia
         </button>
       </div>
     </div>
@@ -122,9 +170,15 @@
         id="profilePicture"
         type="file"
         (change)="onFileSelected($event)"
+        class="form-control"
+      />
+      <img
+        *ngIf="profileForm.get('profilePicture')?.value"
+        [src]="profileForm.get('profilePicture')?.value"
+        alt="Vista previa"
+        class="profile-picture-preview"
       />
     </div>
-
     <button
       type="submit"
       class="btn btn-primary"

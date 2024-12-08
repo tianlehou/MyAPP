@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
@@ -9,9 +14,7 @@ import { Button2Component } from '../../../../shared/components/buttons/button2/
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,
-    Button2Component
-  ],
+  imports: [ReactiveFormsModule, CommonModule, Button2Component],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
@@ -34,11 +37,11 @@ export class ProfileComponent implements OnInit {
 
   private initializeForm(): void {
     this.profileForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      cedula: [''],
       phone: ['', Validators.pattern('^\\+?[1-9]\\d{1,14}$')],
-      experience: [''],
-      profilePicture: [''],
+      direction: [''],
+      experience: this.fb.array([]), // FormArray para experiencia
     });
   }
 
@@ -65,16 +68,43 @@ export class ProfileComponent implements OnInit {
     try {
       const userData = await this.databaseService.getUserData(this.userId);
       console.log('Datos del usuario cargados:', userData);
+
       this.profileForm.patchValue({
-        name: userData?.fullName || '', // Mapear 'fullName' al campo 'name'
-        email: userData?.email || '',
+        fullName: userData?.fullName || '',
+        cedula: userData?.cedula || '',
         phone: userData?.phone || '',
-        experience: userData?.experience || '',
-        profilePicture: userData?.profilePicture || '',
+        direction: userData?.direction || '',
+      });
+
+      // Carga los datos de experiencia
+      const experiences = userData?.experience || [];
+      experiences.forEach((exp: any) => {
+        this.addExperience();
+        const index = this.experienceArray.length - 1;
+        this.experienceArray.at(index).patchValue(exp);
       });
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
+  }
+
+  // Getters
+  get experienceArray(): FormArray {
+    return this.profileForm.get('experience') as FormArray;
+  }
+
+  // Métodos para manipular la experiencia
+  addExperience(): void {
+    const experienceGroup = this.fb.group({
+      year: ['', Validators.required],
+      role: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+    this.experienceArray.push(experienceGroup);
+  }
+
+  removeExperience(index: number): void {
+    this.experienceArray.removeAt(index);
   }
 
   /** Maneja la selección de archivos */
@@ -84,38 +114,32 @@ export class ProfileComponent implements OnInit {
       this.selectedFile = input.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        this.profileForm.patchValue({ profilePicture: reader.result });
+        console.log('Archivo seleccionado:', reader.result);
       };
       reader.readAsDataURL(this.selectedFile);
     }
   }
 
-  /** Envía los datos del formulario */
+  /** Guarda los cambios en Firebase */
   async onSubmit(): Promise<void> {
-    if (!this.profileForm.valid) {
-      alert('Por favor, completa correctamente todos los campos requeridos.');
-      return;
-    }
-
-    if (!this.userId) {
-      alert('Error: Usuario no autenticado.');
+    if (!this.profileForm.valid || !this.userId) {
+      alert('Error en los datos o usuario no autenticado.');
       return;
     }
 
     try {
-      // Ajustar el nombre del campo a 'fullName'
       const formData = {
         ...this.profileForm.value,
-        fullName: this.profileForm.value.name, // Copiar el valor de 'name' a 'fullName'
+        fullName: this.profileForm.value.fullName,
+        experience: this.profileForm.value.experience || [],
       };
-      delete formData.name; // Eliminar el campo 'name' si no es necesario
 
       await this.databaseService.updateUserData(this.userId, formData);
       alert('Datos actualizados exitosamente.');
-      await this.loadUserData(); // Recarga los datos después de guardar
+      await this.loadUserData(); // Recarga los datos después de actualizar
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
-      alert('Ocurrió un error al actualizar los datos. Intenta nuevamente.');
+      alert('Error al guardar datos. Intenta nuevamente.');
     }
   }
 }
