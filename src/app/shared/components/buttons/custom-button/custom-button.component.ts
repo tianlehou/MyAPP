@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-button2',
+  selector: 'app-custom-button',
   standalone: true, // Define el componente como standalone
   imports: [CommonModule], // Importa el CommonModule si es necesario
-  template: `<button class="button2">{{ label }}</button>`,
-  styleUrls: ['./button2.component.css']
+  template: `<button class="custom-button">{{ label }}</button>`,
+  styleUrls: ['./custom-button.component.css']
 })
-export class Button2Component {
+export class CustomButtonComponent {
   @Input() label: string = 'Botón'; // Texto por defecto del botón
 }

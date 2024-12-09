@@ -1,8 +1,5 @@
-<!-- sidebar.component.html -->
 <!-- Icono para abrir el menú -->
-<div class="sidebar-icon" (click)="toggleMenu()">
-  <span>☰</span>
-</div>
+<span class="sidebar-icon" (click)="toggleMenu()">☰</span>
 
 <!-- Menú lateral -->
 <div class="sidebar-menu" [class.open]="isMenuOpen" (click)="preventClose($event)">
@@ -15,14 +12,12 @@
       <li><a routerLink="/home" (click)="toggleMenu()">Inicio</a></li>
       <li><a routerLink="/photos" (click)="toggleMenu()">Fotos</a></li>
       <li><a routerLink="/videos" (click)="toggleMenu()">Videos</a></li>
-      <li><a routerLink="/suscripciones" (click)="toggleMenu()">Suscripciones</a></li>
+      <li>
+        <a routerLink="/suscripciones" (click)="toggleMenu()">Suscripciones</a>
+      </li>
     </ul>
   </nav>
 </div>
 
 <!-- Capa para detectar clics fuera del menú -->
-<div 
-  class="overlay" 
-  *ngIf="isMenuOpen" 
-  (click)="toggleMenu()">
-</div>
+<div class="overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>

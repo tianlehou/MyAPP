@@ -1,0 +1,13 @@
+header {
+    padding: 20px;
+    /* Espaciado interno */
+    display: flex;
+    justify-content: flex-end;
+    /* Alinea los elementos al final (derecha) */
+    align-items: center;
+    /* Centra los elementos verticalmente */
+}
+
+section {
+    margin-top: -2.5em;
+}

@@ -9,12 +9,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
-import { Button2Component } from '../../../../shared/components/buttons/button2/button2.component';
+import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, Button2Component],
+  imports: [ReactiveFormsModule, CommonModule, CustomButtonComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })

@@ -10,12 +10,12 @@ import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
 import { IonicModule } from '@ionic/angular';
-import { Button2Component } from '../../../../shared/components/buttons/button2/button2.component';
+import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule, Button2Component],
+  imports: [IonicModule, ReactiveFormsModule, CommonModule, CustomButtonComponent],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css'],
 })

@@ -1,6 +1,6 @@
 
 /* Estilos de botones */
-.button2 {
+.custom-button {
     display: inline-block;
     transition: all 0.2s ease-in;
     position: relative;
@@ -16,11 +16,11 @@
     box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
   }
   
-  .button2:active {
+  .custom-button:active {
     box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
   }
   
-  .button2:before {
+  .custom-button:before {
     content: "";
     position: absolute;
     left: 50%;
@@ -35,7 +35,7 @@
     z-index: -1;
   }
   
-  .button2:after {
+  .custom-button:after {
     content: "";
     position: absolute;
     left: 55%;
@@ -50,18 +50,18 @@
     z-index: -1;
   }
   
-  .button2:hover {
+  .custom-button:hover {
     color: #ffffff;
     border: 1px solid #009087;
   }
   
-  .button2:hover:before {
+  .custom-button:hover:before {
     top: -35%;
     background-color: #009087;
     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
   }
   
-  .button2:hover:after {
+  .custom-button:hover:after {
     top: -45%;
     background-color: #009087;
     transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
