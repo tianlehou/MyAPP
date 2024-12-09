@@ -45,22 +45,25 @@ a:hover {
 
 .login-btn {
   width: 100%; /* Ancho completo */
-  background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-  color: white;
+  background-color: #78ab92; /* Azul más oscuro al pasar el cursor */
+  color: #f1f6f3;
+border: none;
   border-radius: 4px; /* Bordes redondeados */
   padding: 10px 15px; /* Espaciado interno */
   font-size: 16px; /* Tamaño del texto */
   font-weight: 500; /* Texto en negrita */
   cursor: pointer; /* Manito al pasar el cursor */
-  transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .login-btn:hover {
-  background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-  color: white;
+  background-color: #f1f6f3;
+  border: #78ab92 1px solid;
+  color: #78ab92;
 }
 
 .login-btn:active {
-  background-color: #003f7f; /* Azul aún más oscuro al hacer clic */
-  transform: scale(0.98); /* Ligeramente más pequeño al hacer clic */
+  background-color: #f1f6f3;
+  transform: scale(0.98);
+  border: #78ab92 1px solid;
 }

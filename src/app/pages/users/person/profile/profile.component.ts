@@ -18,10 +18,12 @@ import { CustomButtonComponent } from '../../../../shared/components/buttons/cus
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
+
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   selectedFile: File | null = null;
   userId: string | null = null;
+  userEmail: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +52,8 @@ export class ProfileComponent implements OnInit {
     this.auth.onAuthStateChanged(async (user) => {
       if (user) {
         this.userId = user.uid;
-        console.log('Usuario autenticado:', this.userId);
+        this.userEmail = user.email;
+        console.log('Usuario autenticado:', this.userEmail);
         await this.loadUserData(); // Asegura la carga de datos tras obtener userId
       } else {
         console.error('No se pudo obtener el usuario autenticado.');
@@ -67,7 +70,6 @@ export class ProfileComponent implements OnInit {
 
     try {
       const userData = await this.databaseService.getUserData(this.userId);
-      console.log('Datos del usuario cargados:', userData);
 
       this.profileForm.patchValue({
         fullName: userData?.fullName || '',

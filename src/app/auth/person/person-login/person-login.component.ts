@@ -45,16 +45,4 @@ export class PersonLoginComponent {
         });
     }
   }
-
-  loginWithGoogle() {
-    this.authService
-      .loginWithGoogle()
-      .then(() => {
-        alert('Inicio de sesión con Google exitoso');
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('Error al iniciar sesión con Google');
-      });
-  }
 }
