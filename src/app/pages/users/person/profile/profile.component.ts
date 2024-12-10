@@ -10,15 +10,15 @@ import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../services/database.service';
 import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
+import { SidebarComponent } from '../../../../shared/components/buttons/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, CustomButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, CustomButtonComponent, SidebarComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   selectedFile: File | null = null;

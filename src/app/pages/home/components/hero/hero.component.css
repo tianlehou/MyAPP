@@ -11,3 +11,9 @@ header {
 section {
     margin-top: -2.5em;
 }
+
+app-custom-button {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+}

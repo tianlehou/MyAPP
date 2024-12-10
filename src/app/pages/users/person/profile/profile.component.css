@@ -39,3 +39,9 @@ label {
   color: #333;
   background-color: #f9f9f9;
 }
+
+app-custom-button {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+}

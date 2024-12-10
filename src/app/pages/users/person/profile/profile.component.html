@@ -1,3 +1,4 @@
+<app-sidebar></app-sidebar>
 <div class="profile-container">
   <div class="profile-header">
     <h1>Mi Perfil</h1>
@@ -7,6 +8,14 @@
   </div>
 
   <form [formGroup]="profileForm">
+    <!-- Foto de Perfil -->
+    <div class="form-group">
+      <label for="profilePicture">Foto de Perfil:</label>
+      <p id="profilePicture" class="form-control-static">
+        {{ profileForm.get("profilePicture")?.value || "No especificado" }}
+      </p>
+    </div>
+
     <!-- Nombre -->
     <div class="form-group">
       <label for="fullName">Nombre Completo:</label>
@@ -42,7 +51,12 @@
     <!-- Experiencia Laboral -->
     <div class="form-group">
       <label>Experiencia Laboral:</label>
-      <ng-container *ngIf="profileForm.get('experience')?.value?.length > 0; else noExperience">
+      <ng-container
+        *ngIf="
+          profileForm.get('experience')?.value?.length > 0;
+          else noExperience
+        "
+      >
         <ul class="experience-list">
           <li *ngFor="let exp of profileForm.get('experience')?.value">
             <p>Año: {{ exp.year || "No especificado" }}</p>
@@ -54,14 +68,6 @@
       <ng-template #noExperience>
         <p class="form-control-static">No especificado</p>
       </ng-template>
-    </div>
-
-    <!-- Foto de Perfil -->
-    <div class="form-group">
-      <label for="profilePicture">Foto de Perfil:</label>
-      <p id="profilePicture" class="form-control-static">
-        {{ profileForm.get("profilePicture")?.value || "No especificado" }}
-      </p>
     </div>
   </form>
 </div>
