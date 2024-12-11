@@ -1,6 +1,7 @@
 <app-sidebar></app-sidebar>
 <div class="profile-container">
   <div class="profile-header">
+    <a href="/personal-data">Ir a datos personales</a>
     <h1>Mi Perfil</h1>
     <a href="/edit-profile">
       <app-custom-button label="Editar"></app-custom-button>
@@ -9,11 +10,14 @@
 
   <form [formGroup]="profileForm">
     <!-- Foto de Perfil -->
-    <div class="form-group">
+    <div class="display-flex-center">
       <label for="profilePicture">Foto de Perfil:</label>
-      <p id="profilePicture" class="form-control-static">
-        {{ profileForm.get("profilePicture")?.value || "No especificado" }}
-      </p>
+      <img
+        *ngIf="profileForm.get('profilePicture')?.value"
+        [src]="profileForm.get('profilePicture')?.value"
+        alt="Vista previa"
+        class="profile-picture-preview"
+      />
     </div>
 
     <!-- Nombre -->
@@ -59,9 +63,19 @@
       >
         <ul class="experience-list">
           <li *ngFor="let exp of profileForm.get('experience')?.value">
-            <p>Año: {{ exp.year || "No especificado" }}</p>
-            <p>Rol: {{ exp.role || "No especificado" }}</p>
-            <p>Descripción: {{ exp.description || "No especificado" }}</p>
+            <div class="display-flex-center">
+              <div class="year">
+                <label for="">Año:</label>
+                <p>{{ exp.year || "No especificado" }}</p>
+              </div>
+              <div class="role">
+                <label for="">Rol:</label>
+                <p>{{ exp.role || "No especificado" }}</p>
+              </div>
+            </div>
+            <div class="description">
+              <label for="">Description:</label><p>{{ exp.description || "No especificado" }}</p>
+            </div>
           </li>
         </ul>
       </ng-container>

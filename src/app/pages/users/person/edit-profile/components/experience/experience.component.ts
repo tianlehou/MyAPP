@@ -8,21 +8,21 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
-import { DatabaseService } from '../../../../services/database.service';
-import { DeleteConfirmModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
+import { DatabaseService } from '../../../../../../services/database.service';
+import { DeleteConfirmModalComponent } from '../delete-confirmation-modal/delete-confirmation-modal.component';
 
 @Component({
-  selector: 'app-edit-profile-copy',
+  selector: 'app-experience',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     CommonModule,
     DeleteConfirmModalComponent,
   ],
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.css'],
+  templateUrl: './experience.component.html',
+  styleUrls: ['./experience.component.css'],
 })
-export class EditProfileCopyComponent implements OnInit {
+export class ExperienceComponent implements OnInit {
   profileForm!: FormGroup;
   selectedFile: File | null = null;
   userId: string | null = null;

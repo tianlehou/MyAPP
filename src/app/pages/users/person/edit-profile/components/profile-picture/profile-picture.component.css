@@ -1,3 +1,4 @@
+/* Contenedor principal */
 .profile-container {
   max-width: 600px;
   margin: auto;
@@ -5,45 +6,46 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   background: #f9f9f9;
-  text-align: center; /* Centrar el contenido del contenedor */
+  text-align: center;
 }
 
-.profile-header {
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Centra todo horizontalmente */
-  position: relative; /* Permite posicionar el ícono independientemente */
-  margin-bottom: 20px;
-}
-
-.profile-header h1 {
-  margin: 0;
-  font-size: 24px;
-  text-align: center; /* Asegura el centrado del texto */
-  flex: 1; /* Toma todo el espacio disponible */
-}
-
+/* Grupos de formulario */
 .form-group {
   margin-bottom: 15px;
-  text-align: left; /* Asegura que los elementos dentro no estén centrados */
+  text-align: left;
 }
 
-label {
-  font-size: 0.75em;
+/* Inputs y botones */
+input,
+button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.form-control-static {
-  padding: 0 25px;
-  font-size: 1em;
-  font-style: italic;
-  color: #333;
-  background-color: #f9f9f9;
+input:not([readonly]) {
+  background-color: #fff;
+  border: 1px solid #007bff;
 }
 
-app-custom-button {
-  position: fixed;
-  top: 25px;
-  right: 25px;
+button {
+  background-color: var(--2nd-color);
+  color: white;
+  font-weight: 300;
+  cursor: pointer;
+  border: none;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Mensajes de error */
+.text-danger {
+  color: #e74c3c;
+  font-size: 0.875em;
 }
 
 /* Contenedor de la foto de perfil */
@@ -75,24 +77,4 @@ app-custom-button {
   margin-top: 10px;
   border-radius: 50%;
   border: 2px solid #ccc;
-}
-
-.display-flex-center {
-  display: flex;
-  align-items: center; /* Alinea verticalmente los elementos */
-  gap: 16px; /* Espaciado entre Año y Rol */
-}
-
-.year {
-  flex: 0 0 25%; /* Ocupa 1/4 del ancho de la pantalla */
-  text-align: left; /* Alinea el texto a la izquierda */
-}
-
-.role {
-  flex: 1; /* Ocupa el espacio restante */
-  text-align: left; /* Alinea el texto a la izquierda */
-}
-
-.description {
-  margin-top: -20px;
 }

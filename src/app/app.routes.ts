@@ -8,7 +8,7 @@ import { ProfileComponent } from './pages/users/person/profile/profile.component
 import { CompanyRegisterComponent } from './auth/bussiness/company-register/company-register.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 import { EditProfileComponent } from './pages/users/person/edit-profile/edit-profile.component';
-import { EditProfileCopyComponent } from './pages/users/person/edit-profile copy/edit-profile.component';
+import { PersonalDataComponent } from './pages/users/person/edit-profile/components/personal-data/personal-data.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,10 +16,11 @@ export const routes: Routes = [
   { path: 'signup-person', component: PersonRegisterComponent },
   { path: 'login-person', component: PersonLoginComponent },
   { path: 'forgot-password-person', component: ForgotPasswordComponent },
+  
   { path: 'profile', component: ProfileComponent },
   { path: 'edit-profile', component: EditProfileComponent },
-  { path: 'edit-profile-copy', component: EditProfileCopyComponent },
-
+  { path: 'personal-data', component: PersonalDataComponent },
+ 
   { path: 'signup-company', component: CompanyRegisterComponent },
   { path: 'suscripciones', component: SubscriptionComponent },
   { path: '**', redirectTo: 'home' },
