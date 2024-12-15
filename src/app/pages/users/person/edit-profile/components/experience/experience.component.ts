@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { DatabaseService } from '../../../../../../services/database.service';
-import { DeleteConfirmModalComponent } from '../delete-confirmation-modal/delete-confirmation-modal.component';
+import { DeleteConfirmModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
 
 @Component({
   selector: 'app-experience',
@@ -24,7 +24,6 @@ import { DeleteConfirmModalComponent } from '../delete-confirmation-modal/delete
 })
 export class ExperienceComponent implements OnInit {
   profileForm!: FormGroup;
-  selectedFile: File | null = null;
   userId: string | null = null;
   editableFields: { [key: string]: boolean } = {};
   isDeleteModalVisible: boolean = false;
@@ -70,20 +69,19 @@ export class ExperienceComponent implements OnInit {
       console.error('Error: Usuario no autenticado.');
       return;
     }
-
+  
     try {
+      // Obtener los datos actualizados desde la base de datos
       const userData = await this.databaseService.getUserData(this.userId);
-      this.profileForm.patchValue({
-        fullName: userData?.fullName || '',
-        cedula: userData?.cedula || '',
-        phone: userData?.phone || '',
-        direction: userData?.direction || '',
-      });
-      this.populateExperiences(userData?.experience || []);
+      const profileData = userData?.profileData || {};
+  
+      // Cargar los datos en el formulario
+      this.populateExperiences(profileData.experience || []);
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
   }
+  
 
   private populateExperiences(experiences: any[]): void {
     const formArray = this.experienceArray;
@@ -123,17 +121,31 @@ export class ExperienceComponent implements OnInit {
       alert('Error en los datos o usuario no autenticado.');
       return;
     }
-
+  
     try {
-      const formData = { ...this.profileForm.value };
-      await this.databaseService.updateUserData(this.userId, formData);
+      // Obtener los datos actuales de profileData
+      const userData = await this.databaseService.getUserData(this.userId);
+      const currentProfileData = userData?.profileData || {};
+  
+      // Actualizar únicamente el campo experience
+      const updatedProfileData = {
+        ...currentProfileData,
+        experience: this.experienceArray.value,
+      };
+  
+      // Guardar los datos actualizados en la base de datos
+      await this.databaseService.updateUserData(this.userId, { profileData: updatedProfileData });
+  
       alert('Datos actualizados exitosamente.');
+  
+      // Restaurar estado
       await this.loadUserData();
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
       alert('Error al guardar datos. Intenta nuevamente.');
     }
   }
+  
 
   get experienceArray(): FormArray {
     return this.profileForm.get('experience') as FormArray;

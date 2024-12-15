@@ -96,3 +96,11 @@ app-custom-button {
 .description {
   margin-top: -20px;
 }
+
+.non-editable-text {
+  white-space: pre-wrap; /* Permite que los saltos de línea se respeten */
+  border: 1px solid #ccc; /* Opcional: agrega un borde similar a los formularios */
+  padding: 10px; /* Opcional: agrega espacio interno */
+  background-color: #f9f9f9; /* Opcional: fondo para distinguirlo */
+  border-radius: 4px; /* Opcional: bordes redondeados */
+}

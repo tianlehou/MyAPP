@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit {
       cedula: [''],
       direction: [''],
       profilePicture: [''],
+      aboutMe: [''],
       experience: this.fb.array([]),
       phone: ['', Validators.pattern('^\\+?[1-9]\\d{1,14}$')],
       fullName: ['', [Validators.required, Validators.minLength(3)]],
@@ -88,6 +89,7 @@ export class ProfileComponent implements OnInit {
         fullName: userData?.fullName || '',
         direction: userData?.direction || '',
         profilePicture: userData?.profilePicture || '',
+        aboutMe: userData?.aboutMe || '',
       });
 
       if (userData?.profilePicture) {

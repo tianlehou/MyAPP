@@ -24,7 +24,7 @@ export class ProfilePictureComponent implements OnInit {
   profileForm!: FormGroup;
   userId: string | null = null;
   selectedFile: File | null = null;
-  
+
   constructor(
     private auth: Auth,
     private fb: FormBuilder,
@@ -62,9 +62,8 @@ export class ProfilePictureComponent implements OnInit {
 
     try {
       const userData = await this.databaseService.getUserData(this.userId);
-      this.profileForm.patchValue({
-        profilePicture: userData?.profilePicture || '',
-      });
+      const profilePicture = userData?.profileData?.profilePicture || '';
+      this.profileForm.patchValue({ profilePicture });
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
@@ -87,14 +86,24 @@ export class ProfilePictureComponent implements OnInit {
       alert('Selecciona una imagen válida o inicia sesión.');
       return;
     }
-
+  
     try {
       const storageRef = ref(this.storage, `profile-pictures/${this.userId}`);
       await uploadBytes(storageRef, this.selectedFile);
       const downloadURL = await getDownloadURL(storageRef);
-
-      await this.databaseService.updateUserData(this.userId, { profilePicture: downloadURL });
-
+  
+      const userData = await this.databaseService.getUserData(this.userId);
+      const currentProfileData = userData?.profileData || {};
+  
+      // Actualizar solo el campo profilePicture
+      const updatedProfileData = { 
+        ...currentProfileData, 
+        profilePicture: downloadURL 
+      };
+  
+      // Guardar los datos actualizados en la base de datos
+      await this.databaseService.updateUserData(this.userId, { profileData: updatedProfileData });
+  
       alert('Foto de perfil actualizada exitosamente.');
       await this.loadUserData();
     } catch (error) {

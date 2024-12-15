@@ -10,7 +10,10 @@ export class DatabaseService {
   }
 
   // Guardar datos adicionales en Firebase Realtime Database
-  saveUserData(uid: string, data: { fullName: string; email: string }): Promise<void> {
+  saveUserData(
+    uid: string,
+    data: { fullName: string; email: string }
+  ): Promise<void> {
     const userRef = ref(this.db, `users/${uid}`);
     return set(userRef, data)
       .then(() => console.log('Datos guardados exitosamente'))
@@ -38,7 +41,22 @@ export class DatabaseService {
   }
 
   // Actualizar datos de usuario en Firebase Realtime Database
-  async updateUserData(uid: string, data: Partial<{ fullName: string; email: string; phone?: string; experience?: string; profilePicture?: string }>): Promise<void> {
+  async updateUserData(
+    uid: string,
+    data: Partial<{
+      fullName: string;
+      email: string;
+      profileData: {
+        phone?: string;
+        cedula?: string;
+        direction?: string;
+
+        profilePicture?: string;
+        experience?: string;
+        aboutMe?: string;
+      };
+    }>
+  ): Promise<void> {
     const userRef = ref(this.db, `users/${uid}`);
     try {
       await update(userRef, data);

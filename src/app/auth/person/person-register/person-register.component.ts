@@ -37,31 +37,35 @@ export class PersonRegisterComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  register() {
-    if (this.registerForm.valid) {
-      const { fullName, email, password } = this.registerForm.value;
-  
-      this.authService
-        .registerWithEmail(email, password)
-        .then((userCredential) => {
-          const uid = userCredential.user?.uid;
-  
-          if (uid) {
-            // Guarda el nombre en Firebase Realtime Database
-            const userData = { fullName, email };
-            return this.authService.saveUserData(uid, userData);
-          } else {
-            throw new Error('No se pudo obtener el UID del usuario.');
-          }
-        })
-        .then(() => {
-          alert('Usuario registrado con éxito');
-          this.router.navigate(['/login-person']);
-        })
-        .catch((error) => {
-          console.error(error);
-          alert('Error al registrar: ' + error.message);
-        });
+register() {
+  if (this.registerForm.valid) {
+    const { fullName, email, password } = this.registerForm.value;
+
+    this.authService
+      .registerWithEmail(email, password)
+      .then((userCredential) => {
+        const uid = userCredential.user?.uid;
+
+        if (uid) {
+          const userData = { 
+            fullName, 
+            email, 
+            role: 'user',
+          };
+
+          return this.authService.saveUserData(uid, userData);
+        } else {
+          throw new Error('No se pudo obtener el UID del usuario.');
+        }
+      })
+      .then(() => {
+        alert('Usuario registrado con éxito');
+        this.router.navigate(['/login-person']);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Error al registrar: ' + error.message);
+      });
     }
   }
 }

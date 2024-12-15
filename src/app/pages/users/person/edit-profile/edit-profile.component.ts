@@ -3,6 +3,7 @@ import { CustomButtonComponent } from '../../../../shared/components/buttons/cus
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
 import { ExperienceComponent } from './components/experience/experience.component';
+import { AboutMeComponent } from './components/about-me/about-me.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,6 +13,7 @@ import { ExperienceComponent } from './components/experience/experience.componen
     ProfilePictureComponent,
     PersonalDataComponent,
     ExperienceComponent,
+    AboutMeComponent,
   ],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css'],

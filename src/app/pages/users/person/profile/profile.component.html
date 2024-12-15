@@ -1,7 +1,6 @@
 <app-sidebar></app-sidebar>
 <div class="profile-container">
   <div class="profile-header">
-    <a href="/personal-data">Ir a datos personales</a>
     <h1>Mi Perfil</h1>
     <a href="/edit-profile">
       <app-custom-button label="Editar"></app-custom-button>
@@ -12,12 +11,8 @@
     <!-- Foto de Perfil -->
     <div class="display-flex-center">
       <label for="profilePicture">Foto de Perfil:</label>
-      <img
-        *ngIf="profileForm.get('profilePicture')?.value"
-        [src]="profileForm.get('profilePicture')?.value"
-        alt="Vista previa"
-        class="profile-picture-preview"
-      />
+      <img *ngIf="profileForm.get('profilePicture')?.value" [src]="profileForm.get('profilePicture')?.value"
+        alt="Vista previa" class="profile-picture-preview" />
     </div>
 
     <!-- Nombre -->
@@ -55,12 +50,10 @@
     <!-- Experiencia Laboral -->
     <div class="form-group">
       <label>Experiencia Laboral:</label>
-      <ng-container
-        *ngIf="
+      <ng-container *ngIf="
           profileForm.get('experience')?.value?.length > 0;
           else noExperience
-        "
-      >
+        ">
         <ul class="experience-list">
           <li *ngFor="let exp of profileForm.get('experience')?.value">
             <div class="display-flex-center">
@@ -74,7 +67,8 @@
               </div>
             </div>
             <div class="description">
-              <label for="">Description:</label><p>{{ exp.description || "No especificado" }}</p>
+              <label for="">Description:</label>
+              <p>{{ exp.description || "No especificado" }}</p>
             </div>
           </li>
         </ul>
@@ -83,5 +77,14 @@
         <p class="form-control-static">No especificado</p>
       </ng-template>
     </div>
+
+    <!-- Sobre Mí -->
+    <div class="form-group">
+      <label for="AboutMe">Sobre Mí:</label>
+      <p id="aboutMe" class="form-control-static non-editable-text">
+        {{ profileForm.get("aboutMe")?.value || "No especificado" }}
+      </p>
+    </div>
+
   </form>
 </div>
