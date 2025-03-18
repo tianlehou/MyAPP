@@ -1,19 +1,24 @@
 header {
     padding: 20px;
-    /* Espaciado interno */
     display: flex;
     justify-content: flex-end;
-    /* Alinea los elementos al final (derecha) */
     align-items: center;
-    /* Centra los elementos verticalmente */
-}
-
-section {
-    margin-top: -2.5em;
+    background-image: url('../../../../../assets/DALL·E\ 2025-03-13\ 18.26.51.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px;
+    width: 100%;
+    position: relative;
 }
 
 app-custom-button {
     position: fixed;
     top: 25px;
     right: 25px;
+    z-index: 10;
+}
+
+section {
+    margin-top: -2.5em;
 }

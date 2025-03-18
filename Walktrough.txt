@@ -1,0 +1,5 @@
+v1.00.04
+	Regla de Firebase Storage actualizado para: "Read, Write, Delete"
+	componente edit-profile-picture:
+	- guarda archivo de imagen a storage
+	- muestra imagen de storage en pantalla

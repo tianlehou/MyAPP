@@ -7,84 +7,32 @@
     </a>
   </div>
 
-  <form [formGroup]="profileForm">
-    <!-- Foto de Perfil -->
-    <div class="display-flex-center">
-      <label for="profilePicture">Foto de Perfil:</label>
-      <img *ngIf="profileForm.get('profilePicture')?.value" [src]="profileForm.get('profilePicture')?.value"
-        alt="Vista previa" class="profile-picture-preview" />
-    </div>
+  <form>
+    <app-profile-picture [currentUser]="currentUser"></app-profile-picture>
+    <app-personal-data [currentUser]="currentUser"></app-personal-data>
+    <app-experience [currentUser]="currentUser"></app-experience>
+    <app-about-me [currentUser]="currentUser"></app-about-me>
+    <app-academic-formation [currentUser]="currentUser"></app-academic-formation>
+    <app-languages [currentUser]="currentUser"></app-languages>
+    <app-skills [currentUser]="currentUser"></app-skills>
 
-    <!-- Nombre -->
-    <div class="form-group">
-      <label for="fullName">Nombre Completo:</label>
-      <p id="fullName" class="form-control-static">
-        {{ profileForm.get("fullName")?.value || "No especificado" }}
+    <div class="line"></div>
+
+    <div>
+      <p>
+        Componentes hecho: <br />
+        <label for="">* Foto de Perfil</label><br />
+        <label for="">* Datos de Contactos: Nombre, cedula, telefono, direccion</label><br />
+        <label for="">* experiencias: año, Rol, Empresa, descripcion</label><br />
+        <label for="">* Sobre mí</label><br />
+        <label for="">* Educación: año, universidad, titulo</label><br />
+        <label for="">* Idiomas: idioma, nivel, certificado</label><br />
+        <label for="">* Habilidades</label><br />
+      </p>
+      <p>
+        Componentes pendientes: <br />
+        <label for="">* Referencias</label><br />
       </p>
     </div>
-
-    <!-- Cédula -->
-    <div class="form-group">
-      <label for="cedula">Cédula:</label>
-      <p id="cedula" class="form-control-static">
-        {{ profileForm.get("cedula")?.value || "No especificado" }}
-      </p>
-    </div>
-
-    <!-- Teléfono -->
-    <div class="form-group">
-      <label for="phone">Teléfono/Celular:</label>
-      <p id="phone" class="form-control-static">
-        {{ profileForm.get("phone")?.value || "No especificado" }}
-      </p>
-    </div>
-
-    <!-- Dirección -->
-    <div class="form-group">
-      <label for="direction">Dirección:</label>
-      <p id="direction" class="form-control-static">
-        {{ profileForm.get("direction")?.value || "No especificado" }}
-      </p>
-    </div>
-
-    <!-- Experiencia Laboral -->
-    <div class="form-group">
-      <label>Experiencia Laboral:</label>
-      <ng-container *ngIf="
-          profileForm.get('experience')?.value?.length > 0;
-          else noExperience
-        ">
-        <ul class="experience-list">
-          <li *ngFor="let exp of profileForm.get('experience')?.value">
-            <div class="display-flex-center">
-              <div class="year">
-                <label for="">Año:</label>
-                <p>{{ exp.year || "No especificado" }}</p>
-              </div>
-              <div class="role">
-                <label for="">Rol:</label>
-                <p>{{ exp.role || "No especificado" }}</p>
-              </div>
-            </div>
-            <div class="description">
-              <label for="">Description:</label>
-              <p>{{ exp.description || "No especificado" }}</p>
-            </div>
-          </li>
-        </ul>
-      </ng-container>
-      <ng-template #noExperience>
-        <p class="form-control-static">No especificado</p>
-      </ng-template>
-    </div>
-
-    <!-- Sobre Mí -->
-    <div class="form-group">
-      <label for="AboutMe">Sobre Mí:</label>
-      <p id="aboutMe" class="form-control-static non-editable-text">
-        {{ profileForm.get("aboutMe")?.value || "No especificado" }}
-      </p>
-    </div>
-
   </form>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,19 +6,20 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Auth } from '@angular/fire/auth';
-import { DatabaseService } from '../../../../../../services/database.service';
+import { FirebaseService } from '../../../../../../services/firebase.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-about-me',
+  selector: 'app-edit-about-me',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './about-me.component.html',
-  styleUrls: ['./about-me.component.css'],
+  templateUrl: './edit-about-me.component.html',
+  styleUrls: ['./edit-about-me.component.css'],
 })
-export class AboutMeComponent implements OnInit {
+export class EditAboutMeComponent implements OnInit {
+  @Input() currentUser: User | null = null;
   profileForm!: FormGroup;
-  userId: string | null = null;
+  userEmail: string | null = null;
   editableFields: { [key: string]: boolean } = {};
   isFormDirty = false; // Estado de cambios en el formulario
   showSaveButton = false; // Botón invisible al iniciar
@@ -26,14 +27,16 @@ export class AboutMeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: Auth,
-    private databaseService: DatabaseService
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.setEditableFields();
-    this.loadAuthenticatedUser();
+    if (this.currentUser) {
+      this.userEmail = this.currentUser.email?.replaceAll('.', '_') || null;
+      this.loadUserData();
+    }
 
     // Detectar cambios en el formulario
     this.profileForm.valueChanges.subscribe(() => {
@@ -53,25 +56,14 @@ export class AboutMeComponent implements OnInit {
     };
   }
 
-  private loadAuthenticatedUser(): void {
-    this.auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        this.userId = user.uid;
-        await this.loadUserData();
-      } else {
-        console.error('No se pudo obtener el usuario autenticado.');
-      }
-    });
-  }
-
   private async loadUserData(): Promise<void> {
-    if (!this.userId) {
+    if (!this.userEmail) {
       console.error('Error: Usuario no autenticado.');
       return;
     }
 
     try {
-      const userData = await this.databaseService.getUserData(this.userId);
+      const userData = await this.firebaseService.getUserData(this.userEmail);
       const aboutMe = userData?.profileData?.aboutMe || '';
 
       this.profileForm.patchValue({ aboutMe });
@@ -119,27 +111,29 @@ export class AboutMeComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    if (!this.profileForm.valid || !this.userId || !this.isFormDirty) {
+    if (!this.profileForm.valid || !this.userEmail || !this.isFormDirty) {
       alert('Error en los datos o usuario no autenticado.');
       return;
     }
-  
+
     try {
       // Obtener los datos actuales de profileData
-      const userData = await this.databaseService.getUserData(this.userId);
+      const userData = await this.firebaseService.getUserData(this.userEmail);
       const currentProfileData = userData?.profileData || {};
-  
+
       // Actualizar únicamente el campo aboutMe
       const updatedProfileData = {
         ...currentProfileData,
         aboutMe: this.profileForm.value.aboutMe,
       };
-  
+
       // Guardar los datos actualizados en la base de datos
-      await this.databaseService.updateUserData(this.userId, { profileData: updatedProfileData });
-  
+      await this.firebaseService.updateUserData(this.userEmail, {
+        profileData: updatedProfileData,
+      });
+
       alert('Datos actualizados exitosamente.');
-  
+
       // Restaurar estado
       this.profileForm.markAsPristine();
       this.isFormDirty = false;
@@ -151,5 +145,4 @@ export class AboutMeComponent implements OnInit {
       alert('Error al guardar datos. Intenta nuevamente.');
     }
   }
-  
 }

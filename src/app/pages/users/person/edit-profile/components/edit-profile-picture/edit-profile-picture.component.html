@@ -1,11 +1,10 @@
 <div class="profile-container">
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <!-- Foto de Perfil -->
     <div class="form-group">
       <div class="display-flex-center">
         <label for="profilePicture">Foto de Perfil:</label>
+        <!-- Añadir imagen por defecto -->
         <img
-          *ngIf="profileForm.get('profilePicture')?.value"
           [src]="profileForm.get('profilePicture')?.value"
           alt="Vista previa"
           class="profile-picture-preview"
@@ -14,6 +13,7 @@
       <input
         id="profilePicture"
         type="file"
+        accept="image/*"
         (change)="onFileSelected($event)"
         class="form-control"
       />

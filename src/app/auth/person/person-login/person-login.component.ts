@@ -6,8 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
-import { RouterModule } from '@angular/router'; // Importa RouterModule
+import { FirebaseService } from '../../../services/firebase.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-person-login',
@@ -19,8 +19,11 @@ import { RouterModule } from '@angular/router'; // Importa RouterModule
 export class PersonLoginComponent {
   loginForm: FormGroup;
   showPassword = false;
+  successMessage: string | null = null; // Mensaje de éxito
+  emailErrorMessage: string | null = null; // Mensaje de error para el correo
+  passwordErrorMessage: string | null = null; // Mensaje de error para la contraseña
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private firebaseService: FirebaseService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -33,15 +36,41 @@ export class PersonLoginComponent {
 
   login() {
     const { email, password } = this.loginForm.value;
+
+    // Limpiar mensajes anteriores
+    this.successMessage = null;
+    this.emailErrorMessage = null;
+    this.passwordErrorMessage = null;
+
     if (this.loginForm.valid) {
-      this.authService
+      this.firebaseService
         .loginWithEmail(email, password)
         .then(() => {
-          alert('Inicio de sesión exitoso');
+          // Mostrar mensaje de éxito
+          this.successMessage = 'Inicio de sesión exitoso';
         })
-        .catch((error) => {
+        .catch((error: { code: string }) => {
           console.error(error);
-          alert('Error al iniciar sesión');
+
+          // Mapeo de errores de Firebase
+          const errorMessages: { [key: string]: string } = {
+            "auth/invalid-email": "Correo inválido. Verifica que esté bien escrito.",
+            "auth/user-disabled": "Tu cuenta ha sido deshabilitada.",
+            "auth/user-not-found": "No se encontró una cuenta con este correo.",
+            "auth/wrong-password": "Contraseña incorrecta.",
+          };
+
+          // Obtener el mensaje de error específico o uno genérico
+          const message = errorMessages[error.code as keyof typeof errorMessages] || "¡Ocurrió un error inesperado!";
+
+          // Asignar el mensaje de error al campo correspondiente
+          if (error.code === "auth/invalid-email" || error.code === "auth/user-not-found") {
+            this.emailErrorMessage = message;
+          } else if (error.code === "auth/wrong-password") {
+            this.passwordErrorMessage = message;
+          } else {
+            this.emailErrorMessage = message; // Mensaje genérico para otros errores
+          }
         });
     }
   }

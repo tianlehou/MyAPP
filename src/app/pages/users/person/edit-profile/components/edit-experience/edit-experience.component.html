@@ -16,30 +16,37 @@
       <div formArrayName="experience">
         <div *ngFor="let exp of experienceArray.controls; let i = index" [formGroupName]="i" class="experience-group">
           <div class="form-row">
+            <!-- Año -->
             <div class="form-group quarter-width">
               <label for="year">Año:</label>
               <input type="text" id="year" formControlName="year" [readonly]="!editableFields['experience']"
                 class="form-control" />
             </div>
+            <!-- Empresa -->
             <div class="form-group three-quarters-width">
-              <label for="role">Rol:</label>
-              <input type="text" id="role" formControlName="role" [readonly]="!editableFields['experience']"
+              <label for="company">Empresa:</label>
+              <input type="text" id="company" formControlName="company" [readonly]="!editableFields['experience']"
                 class="form-control" />
             </div>
           </div>
 
+          <!-- Rol o Cargo -->
+          <div class="form-group">
+            <label for="role">Rol:</label>
+            <input type="text" id="role" formControlName="role" [readonly]="!editableFields['experience']"
+              class="form-control" />
+          </div>
+
+          <!-- Destalles o Descripción -->
           <label>Detalle(s):</label>
           <textarea formControlName="description" class="form-control"
             [readonly]="!editableFields['experience']"></textarea>
 
           <div class="button-row">
-            <button
-            type="button"
-            class="btn btn-danger delete-btn"
-            (click)="confirmDeleteExperience(i)">
-            Eliminar
-          </button>
-          
+            <button type="button" class="btn btn-danger delete-btn" (click)="confirmDeleteExperience(i)">
+              Eliminar
+            </button>
+
             <button type="button" class="btn btn-secondary" (click)="toggleEdit('experience')">
               {{ editableFields["experience"] ? "Guardar" : "Editar" }}
             </button>
@@ -53,10 +60,7 @@
   </form>
 </div>
 
-<app-delete-confirm-modal
-  [isVisible]="isDeleteModalVisible"
-  [title]="'Eliminar experiencia'"
-  [message]="'¿Estás seguro de que deseas eliminar esta experiencia?'"
-  (confirm)="onDeleteConfirmed()"
+<app-delete-confirm-modal [isVisible]="isDeleteModalVisible" [title]="'Eliminar experiencia'"
+  [message]="'¿Estás seguro de que deseas eliminar esta experiencia?'" (confirm)="onDeleteConfirmed()"
   (cancel)="onDeleteCanceled()">
 </app-delete-confirm-modal>

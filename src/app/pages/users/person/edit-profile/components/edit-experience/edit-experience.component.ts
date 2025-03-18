@@ -1,44 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Auth } from '@angular/fire/auth';
-import { DatabaseService } from '../../../../../../services/database.service';
-import { DeleteConfirmModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
+import { FirebaseService } from '../../../../../../services/firebase.service';
+import { DeleteConfirmModalComponent } from '../../../../../../shared/components/modal/delete-confirmation-modal/delete-confirmation-modal.component';
+import { User } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-experience',
+  selector: 'app-edit-experience',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    DeleteConfirmModalComponent,
-  ],
-  templateUrl: './experience.component.html',
-  styleUrls: ['./experience.component.css'],
+  imports: [ReactiveFormsModule, CommonModule, DeleteConfirmModalComponent],
+  templateUrl: './edit-experience.component.html',
+  styleUrls: ['./edit-experience.component.css'],
 })
-export class ExperienceComponent implements OnInit {
+export class EditExperienceComponent implements OnInit {
+  @Input() currentUser: User | null = null;
   profileForm!: FormGroup;
-  userId: string | null = null;
+  userEmail: string | null = null;
   editableFields: { [key: string]: boolean } = {};
-  isDeleteModalVisible: boolean = false;
+  isDeleteModalVisible = false;
   experienceIndexToDelete: number | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private auth: Auth,
-    private databaseService: DatabaseService
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.setEditableFields();
-    this.loadAuthenticatedUser();
+    if (this.currentUser) {
+      this.userEmail = this.currentUser.email?.replaceAll('.', '_') || null;
+      this.loadUserData();
+    }
   }
 
   private initializeForm(): void {
@@ -48,64 +41,30 @@ export class ExperienceComponent implements OnInit {
   }
 
   private setEditableFields(): void {
-    this.editableFields = {
-      experience: false,
-    };
-  }
-
-  private loadAuthenticatedUser(): void {
-    this.auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        this.userId = user.uid;
-        await this.loadUserData();
-      } else {
-        console.error('No se pudo obtener el usuario autenticado.');
-      }
-    });
+    this.editableFields = { experience: false };
   }
 
   private async loadUserData(): Promise<void> {
-    if (!this.userId) {
-      console.error('Error: Usuario no autenticado.');
-      return;
-    }
-  
+    if (!this.userEmail) return;
+
     try {
-      // Obtener los datos actualizados desde la base de datos
-      const userData = await this.databaseService.getUserData(this.userId);
-      const profileData = userData?.profileData || {};
-  
-      // Cargar los datos en el formulario
-      this.populateExperiences(profileData.experience || []);
+      const userData = await this.firebaseService.getUserData(this.userEmail);
+      this.populateExperiences(userData?.profileData?.experience || []);
     } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
+      console.error('Error loading experiences:', error);
     }
   }
-  
 
   private populateExperiences(experiences: any[]): void {
     const formArray = this.experienceArray;
     formArray.clear();
-    experiences.forEach((exp) => {
-      if (!this.experienceExists(exp)) {
-        const experienceGroup = this.fb.group({
-          year: [exp.year || '', Validators.required],
-          role: [exp.role || '', Validators.required],
-          description: [exp.description || '', Validators.required],
-        });
-        formArray.push(experienceGroup);
-      }
-    });
-  }
-
-  private experienceExists(exp: any): boolean {
-    return this.experienceArray.controls.some((control) => {
-      const experience = control.value;
-      return (
-        experience.year === exp.year &&
-        experience.role === exp.role &&
-        experience.description === exp.description
-      );
+    experiences.forEach(exp => {
+      formArray.push(this.fb.group({
+        year: [exp.year || '', Validators.required],
+        company: [exp.company || '', Validators.required],
+        role: [exp.role || '', Validators.required],
+        description: [exp.description || '', Validators.required],
+      }));
     });
   }
 
@@ -117,14 +76,14 @@ export class ExperienceComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    if (!this.profileForm.valid || !this.userId) {
-      alert('Error en los datos o usuario no autenticado.');
+    if (!this.profileForm.valid || !this.userEmail) {
+      alert('Deber completar los campos vacíos.');
       return;
     }
   
     try {
       // Obtener los datos actuales de profileData
-      const userData = await this.databaseService.getUserData(this.userId);
+      const userData = await this.firebaseService.getUserData(this.userEmail);
       const currentProfileData = userData?.profileData || {};
   
       // Actualizar únicamente el campo experience
@@ -134,7 +93,7 @@ export class ExperienceComponent implements OnInit {
       };
   
       // Guardar los datos actualizados en la base de datos
-      await this.databaseService.updateUserData(this.userId, { profileData: updatedProfileData });
+      await this.firebaseService.updateUserData(this.userEmail, { profileData: updatedProfileData });
   
       alert('Datos actualizados exitosamente.');
   
@@ -145,7 +104,6 @@ export class ExperienceComponent implements OnInit {
       alert('Error al guardar datos. Intenta nuevamente.');
     }
   }
-  
 
   get experienceArray(): FormArray {
     return this.profileForm.get('experience') as FormArray;
@@ -154,6 +112,7 @@ export class ExperienceComponent implements OnInit {
   addExperience(): void {
     const experienceGroup = this.fb.group({
       year: ['', Validators.required],
+      company: ['', Validators.required],
       role: ['', Validators.required],
       description: ['', Validators.required],
     });
@@ -168,13 +127,19 @@ export class ExperienceComponent implements OnInit {
 
     this.experienceArray.removeAt(index);
 
-    if (this.userId) {
+    if (this.userEmail) {
       try {
-        const updatedData = {
-          ...this.profileForm.value,
+        const userData = await this.firebaseService.getUserData(this.userEmail);
+        const currentProfileData = userData?.profileData || {};
+
+        const updatedProfileData = {
+          ...currentProfileData,
           experience: this.experienceArray.value,
         };
-        await this.databaseService.updateUserData(this.userId, updatedData);
+
+        await this.firebaseService.updateUserData(this.userEmail, {
+          profileData: updatedProfileData,
+        });
         console.log(
           'Experiencia eliminada y datos sincronizados con la base de datos.'
         );

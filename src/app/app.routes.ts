@@ -10,7 +10,7 @@ import { ForgotPasswordComponent } from './auth/person/person-forgot-password/pe
 import { ProfileComponent } from './pages/users/person/profile/profile.component';
 import { EditProfileComponent } from './pages/users/person/edit-profile/edit-profile.component';
 
-// Others Section
+// Company Section
 import { CompanyRegisterComponent } from './auth/bussiness/company-register/company-register.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 

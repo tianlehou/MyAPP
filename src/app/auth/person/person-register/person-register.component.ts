@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
+import { FirebaseService } from '../../../services/firebase.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,10 +15,16 @@ export class PersonRegisterComponent {
   registerForm: FormGroup;
   showPassword = false; // Controla la visibilidad de la contraseña
   showConfirmPassword = false; // Controla la visibilidad de la confirmación de contraseña
+  errorMessage: string | null = null; // Mensaje de error
+  successMessage: string | null = null; // Mensaje de éxito
+  emailErrorMessage: string | null = null; // Mensaje de error para el correo
+  passwordErrorMessage: string | null = null; // Mensaje de error para la contraseña
+  confirmPasswordErrorMessage: string | null = null; // Mensaje de error para la confirmación de contraseña
+
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private firebaseService: FirebaseService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
@@ -37,35 +43,65 @@ export class PersonRegisterComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-register() {
-  if (this.registerForm.valid) {
-    const { fullName, email, password } = this.registerForm.value;
+  register() {
+    if (this.registerForm.valid) {
+      const { fullName, email, password, confirmPassword } = this.registerForm.value;
 
-    this.authService
-      .registerWithEmail(email, password)
-      .then((userCredential) => {
-        const uid = userCredential.user?.uid;
+      // Limpiar mensajes anteriores
+      this.successMessage = null;
+      this.emailErrorMessage = null;
+      this.passwordErrorMessage = null;
+      this.confirmPasswordErrorMessage = null;
 
-        if (uid) {
+      // Validar que las contraseñas coincidan
+      if (password !== confirmPassword) {
+        this.confirmPasswordErrorMessage = "La contraseña no coincide.";
+        return;
+      }
+
+      this.firebaseService
+        .registerWithEmail(email, password)
+        .then((userCredential) => {
           const userData = { 
             fullName, 
             email, 
-            role: 'user',
+            role: 'user', // Rol por defecto
+            enabled: true, // Cuenta habilitada por defecto
           };
 
-          return this.authService.saveUserData(uid, userData);
-        } else {
-          throw new Error('No se pudo obtener el UID del usuario.');
-        }
-      })
-      .then(() => {
-        alert('Usuario registrado con éxito');
-        this.router.navigate(['/login-person']);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('Error al registrar: ' + error.message);
-      });
+          return this.firebaseService.saveUserData(email, userData);
+        })
+        .then(() => {
+          // Mostrar mensaje de éxito
+          this.successMessage = 'Usuario registrado con éxito';
+          
+          // Redirigir después de 3 segundos
+          setTimeout(() => {
+            this.router.navigate(['/login-person']);
+          }, 3000);
+        })
+        .catch((error: { code: string }) => {
+          console.error(error);
+
+          // Mapeo de errores de Firebase
+          const errorMessages: { [key: string]: string } = {
+            "auth/email-already-in-use": "¡Este correo ya está en uso!",
+            "auth/invalid-email": "Correo inválido. Verifica que esté bien escrito.",
+            "auth/weak-password": "Contraseña débil. Usa al menos 8 caracteres con letras y números.",
+          };
+
+          // Obtener el mensaje de error específico o uno genérico
+          const message = errorMessages[error.code as keyof typeof errorMessages] || "¡Ocurrió un error inesperado!";
+
+          // Asignar el mensaje de error al campo correspondiente
+          if (error.code === "auth/invalid-email") {
+            this.emailErrorMessage = message;
+          } else if (error.code === "auth/weak-password") {
+            this.passwordErrorMessage = message;
+          } else {
+            this.errorMessage = message; // Mensaje genérico para otros errores
+          }
+        });
     }
   }
 }

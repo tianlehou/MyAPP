@@ -12,24 +12,30 @@
   display: flex;
   align-items: center;
   justify-content: center; /* Centra todo horizontalmente */
-  position: relative; /* Permite posicionar el ícono independientemente */
   margin-bottom: 20px;
 }
 
 .profile-header h1 {
   margin: 0;
   font-size: 24px;
-  text-align: center; /* Asegura el centrado del texto */
-  flex: 1; /* Toma todo el espacio disponible */
+  text-align: center;
+  flex: 1;
+}
+
+app-custom-button {
+  position: fixed;
+  top: 25px;
+  right: 25px;
 }
 
 .form-group {
   margin-bottom: 15px;
-  text-align: left; /* Asegura que los elementos dentro no estén centrados */
+  text-align: left;
 }
 
 label {
   font-size: 0.75em;
+  font-weight: 500;
 }
 
 .form-control-static {
@@ -40,57 +46,38 @@ label {
   background-color: #f9f9f9;
 }
 
-app-custom-button {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-}
-
-/* Contenedor de la foto de perfil */
 .display-flex-center {
   display: flex;
-  align-items: center; /* Alinear elementos verticalmente */
-  justify-content: space-between; /* Espaciado entre los elementos */
-  gap: 10px; /* Espaciado entre el label y la imagen */
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   padding-bottom: 20px;
 }
 
-/* Estilo para el label */
 .display-flex-center label {
-  display: block;
-  margin-bottom: 0.5em;
-  font-weight: 500;
-  flex: 1; /* 1/4 del ancho total (aproximadamente, considerando la suma de las proporciones) */
-  max-width: 25%; /* Limitar el ancho máximo a 25% del contenedor */
-  text-align: left; /* Alinear el texto del label a la izquierda */
+  flex: 1;
+  max-width: 25%;
+  text-align: left;
 }
 
-/* Estilo para la imagen */
 .display-flex-center .profile-picture-preview {
-  flex: 3; /* 3/4 del ancho total */
-  max-width: 75%; /* Limitar el ancho máximo a 75% del contenedor */
-  height: auto; /* Mantener la proporción de la imagen */
-  object-fit: cover; /* Ajustar la imagen si es necesario */
-  margin-left: auto; /* Separar la imagen del label */
+  flex: 3;
+  max-width: 75%;
+  height: auto;
+  object-fit: cover;
   margin-top: 10px;
   border-radius: 50%;
   border: 2px solid #ccc;
 }
 
-.display-flex-center {
-  display: flex;
-  align-items: center; /* Alinea verticalmente los elementos */
-  gap: 16px; /* Espaciado entre Año y Rol */
-}
-
 .year {
-  flex: 0 0 25%; /* Ocupa 1/4 del ancho de la pantalla */
-  text-align: left; /* Alinea el texto a la izquierda */
+  flex: 0 0 25%;
+  text-align: left;
 }
 
 .role {
-  flex: 1; /* Ocupa el espacio restante */
-  text-align: left; /* Alinea el texto a la izquierda */
+  flex: 1;
+  text-align: left;
 }
 
 .description {
@@ -98,9 +85,42 @@ app-custom-button {
 }
 
 .non-editable-text {
-  white-space: pre-wrap; /* Permite que los saltos de línea se respeten */
-  border: 1px solid #ccc; /* Opcional: agrega un borde similar a los formularios */
-  padding: 10px; /* Opcional: agrega espacio interno */
-  background-color: #f9f9f9; /* Opcional: fondo para distinguirlo */
-  border-radius: 4px; /* Opcional: bordes redondeados */
+  white-space: pre-wrap;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.line {
+  border: #999 1px solid;
+  margin: 20px 100px;
+}
+
+.experience-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience {
+  display: flex; /* Usa flexbox */
+  gap: 1em; /* Agrega un espacio de 1em entre los elementos */
+}
+
+.year {
+  flex: 1; /* 1 parte de 3 */
+}
+
+.company {
+  flex: 2; /* 2 partes de 3 */
+}
+
+.year, .company {
+  display: flex;
+  flex-direction: column; /* Asegura que el contenido dentro esté alineado verticalmente */
+}
+
+label {
+  font-weight: bold; /* Opcional: resalta las etiquetas */
 }

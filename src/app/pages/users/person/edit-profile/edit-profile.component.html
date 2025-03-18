@@ -5,14 +5,12 @@
       <app-custom-button label="Regresar"></app-custom-button>
     </a>
   </div>
-<a href="/data2">Data-2</a>
-    <!-- Foto de Perfil -->
-    <app-profile-picture></app-profile-picture>
-    <!-- Datos Personales -->
-    <app-personal-data></app-personal-data>
-    <!-- Experiencia -->
-    <app-experience></app-experience>
-    <!-- Sobre Mí -->
-    <app-about-me></app-about-me>
 
+  <app-edit-profile-picture [currentUser]="currentUser"></app-edit-profile-picture>
+  <app-edit-personal-data [currentUser]="currentUser"></app-edit-personal-data>
+  <app-edit-experience [currentUser]="currentUser"></app-edit-experience>
+  <app-edit-about-me [currentUser]="currentUser"></app-edit-about-me>
+  <app-edit-academic-formation [currentUser]="currentUser"></app-edit-academic-formation>
+  <app-edit-languages [currentUser]="currentUser"></app-edit-languages>
+  <app-edit-skills [currentUser]="currentUser"></app-edit-skills>
 </div>

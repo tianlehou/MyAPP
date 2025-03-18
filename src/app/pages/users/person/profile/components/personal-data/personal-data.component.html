@@ -1,0 +1,36 @@
+<div class="profile-container">
+  <form [formGroup]="profileForm">
+    <!-- Nombre -->
+    <div class="form-group">
+      <label for="fullName">Nombre Completo:</label>
+      <p id="fullName" class="form-control-static">
+        {{ profileForm.get("fullName")?.value || "No especificado" }}
+      </p>
+    </div>
+
+    <!-- Cédula -->
+    <div class="form-group">
+      <label for="cedula">Cédula:</label>
+      <p id="cedula" class="form-control-static">
+        {{ profileForm.get("cedula")?.value || "No especificado" }}
+      </p>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="phone">Teléfono/Celular:</label>
+      <p id="phone" class="form-control-static">
+        {{ profileForm.get("phone")?.value || "No especificado" }}
+      </p>
+    </div>
+
+    <!-- Dirección -->
+    <div class="form-group">
+      <label for="direction">Dirección:</label>
+      <p id="direction" class="form-control-static">
+        {{ profileForm.get("direction")?.value || "No especificado" }}
+      </p>
+    </div>
+  </form>
+</div>
+

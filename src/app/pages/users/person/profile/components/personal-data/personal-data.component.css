@@ -1,0 +1,27 @@
+.profile-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+  text-align: center; /* Centrar el contenido del contenedor */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.form-control-static {
+  padding: 0 25px;
+  font-size: 1em;
+  font-style: italic;
+  color: #333;
+  background-color: #f9f9f9;
+}

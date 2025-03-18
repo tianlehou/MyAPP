@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "cv-app": {
+      "users": {
+        "$userEmailKey": {
+          // Solo el usuario autenticado puede leer y escribir sus propios datos
+          ".read": "auth != null && auth.token.email.replace('.', '_') == $userEmailKey",
+          ".write": "auth != null && auth.token.email.replace('.', '_') == $userEmailKey"
+        }
+      }
+    }
+  }
+}
