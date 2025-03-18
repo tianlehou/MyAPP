@@ -42,11 +42,7 @@ export class FirebaseService {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then(async () => {
         const user = await this.getCurrentUser();
-        if (user?.role === 'admin') {
-          this.router.navigate(['dashboard']);
-        } else {
-          this.router.navigate(['profile']);
-        }
+        return user;
       })
       .catch((error) => {
         throw error;

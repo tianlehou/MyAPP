@@ -14,9 +14,7 @@ footer {
 /* Estilo para centrar los elementos en un contenedor */
 .display-flex-center {
     display: flex;
-    /* Habilita el uso de flexbox */
     align-items: center;
-    /* Alinea verticalmente los elementos */
     justify-content: center;
 }
 

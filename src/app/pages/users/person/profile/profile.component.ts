@@ -27,7 +27,7 @@ import { SkillsComponent } from './components/skills/skills.component';
     SkillsComponent,
   ],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css', '../../../../../assets/global.css'],
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   currentUser: User | null = null;

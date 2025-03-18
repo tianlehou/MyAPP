@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FirebaseService } from '../../../services/firebase.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-person-login',
@@ -23,7 +23,11 @@ export class PersonLoginComponent {
   emailErrorMessage: string | null = null; // Mensaje de error para el correo
   passwordErrorMessage: string | null = null; // Mensaje de error para la contraseña
 
-  constructor(private fb: FormBuilder, private firebaseService: FirebaseService) {
+  constructor(
+    private fb: FormBuilder,
+    private firebaseService: FirebaseService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -45,9 +49,19 @@ export class PersonLoginComponent {
     if (this.loginForm.valid) {
       this.firebaseService
         .loginWithEmail(email, password)
-        .then(() => {
-          // Mostrar mensaje de éxito
+        .then((user) => {
           this.successMessage = 'Inicio de sesión exitoso';
+          setTimeout(() => {
+            if (user?.role === 'admin') {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/profile']);
+            }
+          }, 3000);
+
+
+
+
         })
         .catch((error: { code: string }) => {
           console.error(error);
