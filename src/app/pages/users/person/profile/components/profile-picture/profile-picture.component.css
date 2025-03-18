@@ -3,36 +3,27 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 10px;
   background: #f9f9f9;
-  text-align: center; /* Centrar el contenido del contenedor */
-}
-
-.display-flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  text-align: center;
   gap: 10px;
   padding-bottom: 20px;
 }
 
-.display-flex-center label {
+.profile-container label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 500;
   flex: 1;
   max-width: 25%;
   text-align: left;
 }
 
-.display-flex-center .profile-picture-preview {
+.profile-container .profile-picture-preview {
   flex: 3;
   max-width: 75%;
   height: auto;
   object-fit: cover;
+  margin-left: auto;
   margin-top: 10px;
   border-radius: 50%;
-  border: 2px solid #ccc;
-}
-
-label {
-  font-size: 0.75em;
-  font-weight: 500;
 }

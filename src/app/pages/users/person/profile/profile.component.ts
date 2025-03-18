@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, onAuthStateChanged, User } from '@angular/fire/auth'; // Importar Auth y onAuthStateChanged
-import { Router } from '@angular/router'; // Importar Router para redireccionar
+import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
 import { SidebarComponent } from '../../../../shared/components/buttons/sidebar/sidebar.component';
@@ -27,7 +27,7 @@ import { SkillsComponent } from './components/skills/skills.component';
     SkillsComponent,
   ],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  styleUrls: ['./profile.component.css', '../../../../../assets/global.css'],
 })
 export class ProfileComponent implements OnInit {
   currentUser: User | null = null;

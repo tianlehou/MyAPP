@@ -75,5 +75,5 @@ button:disabled {
   margin-left: auto; /* Separar la imagen del label */
   margin-top: 10px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  /* border: 2px solid #ccc; */
 }

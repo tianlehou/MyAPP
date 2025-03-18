@@ -21,17 +21,24 @@ export class SubscriptionComponent {
       duracion: 'ilimitado',
     },
     {
+      id: 'anualidad',
+      nombre: 'Candidato Estrella',
+      descripcion: 'Ideal para todo candidato.',
+      precio: 4.99,
+      duracion: 365, // En días
+    },
+    {
       id: 'pequena_empresa',
       nombre: 'Plan Pequeña Empresa',
       descripcion: 'Ideal para pequeños negocios.',
-      precio: 50,
+      precio: 29.99,
       duracion: 30, // En días
     },
     {
       id: 'empresarial',
       nombre: 'Plan Empresarial',
       descripcion: 'Para grandes empresas.',
-      precio: 500,
+      precio: 299.99,
       duracion: 365, // En días
     },
   ];

@@ -1,56 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { FirebaseService } from '../../../../../../services/firebase.service';
 import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-profile-picture',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-  ],
   templateUrl: './profile-picture.component.html',
   styleUrls: ['./profile-picture.component.css'],
 })
-export class ProfilePictureComponent implements OnInit {
-  @Input() currentUser: User | null = null;
-  profileForm!: FormGroup;
-  userEmail: string | null = null;
-
-  constructor(
-    private fb: FormBuilder,
-    private firebaseService: FirebaseService,
-  ) {}
-
-  ngOnInit(): void {
-    this.initializeForm();
-    if (this.currentUser) {
-      this.userEmail = this.currentUser.email?.replaceAll('.', '_') || null;
-      this.loadUserData();
+export class ProfilePictureComponent {
+  @Input()
+  set currentUser(user: User | null) {
+    if (user?.email) {
+      const userEmailKey = user.email.replace(/\./g, '_');
+      this.loadUserData(userEmailKey);
+    } else {
+      this.profilePictureUrl = null;
     }
   }
+  profilePictureUrl: string | null = null;
 
-  private initializeForm(): void {
-    this.profileForm = this.fb.group({
-      profilePicture: [''],
-    });
-  }
+  constructor(private firebaseService: FirebaseService) {}
 
-  private async loadUserData(): Promise<void> {
-    if (!this.userEmail) {
-      console.error('Error: Usuario no autenticado.');
-      return;
-    }
-
+  private async loadUserData(userEmailKey: string): Promise<void> {
     try {
-      const userData = await this.firebaseService.getUserData(this.userEmail);
-      this.profileForm.patchValue({
-        profilePicture: userData?.profileData?.profilePicture || '',
-      });
+      const userData = await this.firebaseService.getUserData(userEmailKey);
+      this.profilePictureUrl = userData?.profileData?.profilePicture || null;
     } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
+      console.error('Error cargando datos:', error);
+      alert('No se pudo cargar la imagen actual');
     }
   }
 }

@@ -1,10 +1,4 @@
-<div class="profile-container">
-  <form [formGroup]="profileForm">
-    <!-- Foto de Perfil -->
-    <div class="display-flex-center">
-      <label for="profilePicture">Foto de Perfil:</label>
-      <img *ngIf="profileForm.get('profilePicture')?.value" [src]="profileForm.get('profilePicture')?.value"
-        alt="Vista previa" class="profile-picture-preview" />
-    </div>
-  </form>
+<div class="profile-container display-flex-center">
+  <label for="profilePicture">Foto de Perfil:</label>
+  <img [src]="profilePictureUrl" class="profile-picture-preview" />
 </div>
