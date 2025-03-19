@@ -51,10 +51,9 @@ export class PersonLoginComponent {
         .loginWithEmail(email, password)
         .then((user) => {
           this.successMessage = 'Inicio de sesión exitoso';
-          // Por este:
           setTimeout(() => {
             if (user?.role === 'admin') {
-              this.router.navigate(['/admin-dashboard']);
+              this.router.navigate(['/main']);
             } else {
               this.router.navigate(['/profile']);
             }

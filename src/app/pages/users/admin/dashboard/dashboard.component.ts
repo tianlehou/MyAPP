@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../../services/firebase.service';
+import { FirebaseService } from '../../../../services/firebase.service';
 import { get, ref, update } from 'firebase/database';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,8 +9,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   selector: 'app-admin-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule, NgxChartsModule],
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
   users: any[] = [];
