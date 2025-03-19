@@ -51,36 +51,39 @@ export class PersonLoginComponent {
         .loginWithEmail(email, password)
         .then((user) => {
           this.successMessage = 'Inicio de sesión exitoso';
+          // Por este:
           setTimeout(() => {
             if (user?.role === 'admin') {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/admin-dashboard']);
             } else {
               this.router.navigate(['/profile']);
             }
           }, 3000);
-
-
-
-
         })
         .catch((error: { code: string }) => {
           console.error(error);
 
           // Mapeo de errores de Firebase
           const errorMessages: { [key: string]: string } = {
-            "auth/invalid-email": "Correo inválido. Verifica que esté bien escrito.",
-            "auth/user-disabled": "Tu cuenta ha sido deshabilitada.",
-            "auth/user-not-found": "No se encontró una cuenta con este correo.",
-            "auth/wrong-password": "Contraseña incorrecta.",
+            'auth/invalid-email':
+              'Correo inválido. Verifica que esté bien escrito.',
+            'auth/user-disabled': 'Tu cuenta ha sido deshabilitada.',
+            'auth/user-not-found': 'No se encontró una cuenta con este correo.',
+            'auth/wrong-password': 'Contraseña incorrecta.',
           };
 
           // Obtener el mensaje de error específico o uno genérico
-          const message = errorMessages[error.code as keyof typeof errorMessages] || "¡Ocurrió un error inesperado!";
+          const message =
+            errorMessages[error.code as keyof typeof errorMessages] ||
+            '¡Ocurrió un error inesperado!';
 
           // Asignar el mensaje de error al campo correspondiente
-          if (error.code === "auth/invalid-email" || error.code === "auth/user-not-found") {
+          if (
+            error.code === 'auth/invalid-email' ||
+            error.code === 'auth/user-not-found'
+          ) {
             this.emailErrorMessage = message;
-          } else if (error.code === "auth/wrong-password") {
+          } else if (error.code === 'auth/wrong-password') {
             this.passwordErrorMessage = message;
           } else {
             this.emailErrorMessage = message; // Mensaje genérico para otros errores

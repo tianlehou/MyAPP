@@ -6,6 +6,9 @@ import { PersonRegisterComponent } from './auth/person/person-register/person-re
 import { PersonLoginComponent } from './auth/person/person-login/person-login.component';
 import { ForgotPasswordComponent } from './auth/person/person-forgot-password/person-forgot-password.component';
 
+// Dashboard Section
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+
 // Person Section
 import { ProfileComponent } from './pages/users/person/profile/profile.component';
 import { EditProfileComponent } from './pages/users/person/edit-profile/edit-profile.component';
@@ -17,6 +20,9 @@ import { SubscriptionComponent } from './pages/subscription/subscription.compone
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+
+  // Dashboard Section
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
 
   // Auth Section
   { path: 'signup-person', component: PersonRegisterComponent },
