@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { Database, ref, get } from '@angular/fire/database';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 // Custom components
 import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
@@ -16,6 +18,8 @@ import { EditSkillsComponent } from './components/edit-skills/edit-skills.compon
   selector: 'app-edit-profile',
   standalone: true,
   imports: [
+    RouterModule,
+    CommonModule,
     CustomButtonComponent,
 
     EditProfilePictureComponent,
@@ -57,6 +61,8 @@ export class EditProfileComponent implements OnInit {
         } catch (error) {
           console.error('Error al obtener el rol:', error);
         }
+      } else {
+        console.error('Usuario no autenticado.'); // Depuración
       }
     });
   }

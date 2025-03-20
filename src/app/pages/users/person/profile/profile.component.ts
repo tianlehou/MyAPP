@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
-import { Database, ref, get } from '@angular/fire/database'; // Importar Database
+import { Database, ref, get } from '@angular/fire/database';
+import { RouterModule } from '@angular/router';
 
 // Custom components
 import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
@@ -17,6 +18,7 @@ import { SkillsComponent } from './components/skills/skills.component';
   selector: 'app-profile',
   standalone: true,
   imports: [
+    RouterModule,
     CustomButtonComponent,
     SidebarComponent,
     ProfilePictureComponent,
