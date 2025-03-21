@@ -1,47 +1,28 @@
+/* Contenedor principal */
 .profile-container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 10px;
   background: #f9f9f9;
-  text-align: center;
 }
 
+/* Grupos de formulario */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
 }
 
 label {
-  font-size: 0.9em;
-  font-weight: bold;
+  display: block;
+  margin: 0.5em 0 0 1em;
+  font-weight: 500;
 }
 
-.academic-formation-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.academic-formation {
-  display: flex;
-  gap: 1em;
-  margin-bottom: 10px;
-}
-
-.year, .institution, .degree {
-  flex: 1;
-}
-
-.year p, .institution p, .degree p {
-  margin: 0;
-  font-style: italic;
-  color: #333;
-}
-
-.form-control-static {
-  font-style: italic;
-  color: #777;
-  text-align: center;
+.profile-container p {
+  white-space: pre-wrap;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
 }

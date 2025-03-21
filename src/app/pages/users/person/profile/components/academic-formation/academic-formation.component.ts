@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FirebaseService } from '../../../../../../services/firebase.service';
 import { User } from '@angular/fire/auth';
@@ -18,7 +23,7 @@ export class AcademicFormationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
@@ -43,22 +48,24 @@ export class AcademicFormationComponent implements OnInit {
 
     try {
       const userData = await this.firebaseService.getUserData(this.userEmail);
-
-      // Carga los datos de formación académica
-      const academicFormation = userData?.profileData?.academicFormation || [];
-      const academicFormationArray = this.profileForm.get('academicFormation') as FormArray;
-
-      academicFormation.forEach((formation: any) => {
-        const formationGroup = this.fb.group({
-          year: [formation.year || '', Validators.required],
-          institution: [formation.institution || '', Validators.required],
-          degree: [formation.degree || '', Validators.required],
-        });
-        academicFormationArray.push(formationGroup);
-      });
+      const profileData = userData?.profileData || {};
+      this.populateAcademicFormation(profileData.academicFormation || []);
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }
+  }
+
+  private populateAcademicFormation(formationList: any[]): void {
+    const formArray = this.academicFormationArray;
+    formArray.clear();
+    formationList.forEach((formation) => {
+      const formationGroup = this.fb.group({
+        year: [formation.year || ''],
+        institution: [formation.institution || ''],
+        degree: [formation.degree || ''],
+      });
+      formArray.push(formationGroup);
+    });
   }
 
   get academicFormationArray(): FormArray {

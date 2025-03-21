@@ -8,31 +8,12 @@
   </div>
 
   <form>
-    <app-profile-picture [currentUser]="currentUser"></app-profile-picture>
-    <app-personal-data [currentUser]="currentUser"></app-personal-data>
-    <app-experience [currentUser]="currentUser"></app-experience>
-    <app-about-me [currentUser]="currentUser"></app-about-me>
-    <app-academic-formation [currentUser]="currentUser"></app-academic-formation>
-    <app-languages [currentUser]="currentUser"></app-languages>
-    <app-skills [currentUser]="currentUser"></app-skills>
-
-    <div class="line"></div>
-
-    <div>
-      <p>
-        Componentes hecho: <br />
-        <label for="">* Foto de Perfil</label><br />
-        <label for="">* Datos de Contactos: Nombre, cedula, telefono, direccion</label><br />
-        <label for="">* experiencias: año, Rol, Empresa, descripcion</label><br />
-        <label for="">* Sobre mí</label><br />
-        <label for="">* Educación: año, universidad, titulo</label><br />
-        <label for="">* Idiomas: idioma, nivel, certificado</label><br />
-        <label for="">* Habilidades</label><br />
-      </p>
-      <p>
-        Componentes pendientes: <br />
-        <label for="">* Referencias</label><br />
-      </p>
-    </div>
+    <app-profile-picture *ngIf="currentUser" [currentUser]="currentUser"></app-profile-picture>
+    <app-personal-data *ngIf="currentUser" [currentUser]="currentUser"></app-personal-data>
+    <app-experience *ngIf="currentUser" [currentUser]="currentUser"></app-experience>
+    <app-about-me *ngIf="currentUser" [currentUser]="currentUser"></app-about-me>
+    <app-academic-formation *ngIf="currentUser" [currentUser]="currentUser"></app-academic-formation>
+    <app-languages *ngIf="currentUser" [currentUser]="currentUser"></app-languages>
+    <app-skills *ngIf="currentUser" [currentUser]="currentUser"></app-skills>
   </form>
 </div>

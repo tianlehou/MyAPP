@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
 import { FirebaseService } from '../../../../../../services/firebase.service';
 import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-about-me',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule], // Agrega ReactiveFormsModule aquí
   templateUrl: './about-me.component.html',
   styleUrls: ['./about-me.component.css'],
 })
@@ -18,7 +19,7 @@ export class AboutMeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
@@ -43,9 +44,9 @@ export class AboutMeComponent implements OnInit {
 
     try {
       const userData = await this.firebaseService.getUserData(this.userEmail);
-      this.profileForm.patchValue({
-        aboutMe: userData?.profileData?.aboutMe || '',
-      });
+      const aboutMe = userData?.profileData?.aboutMe || '';
+
+      this.profileForm.patchValue({ aboutMe });
     } catch (error) {
       console.error('Error al cargar los datos del usuario:', error);
     }

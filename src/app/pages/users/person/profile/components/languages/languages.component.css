@@ -1,65 +1,32 @@
+/* Contenedor principal */
 .profile-container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 10px;
   background: #f9f9f9;
-  text-align: center;
 }
 
+.form-row {
+  gap: 3em;
+}
+
+/* Grupos de formulario */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
 }
 
 label {
-  font-size: 0.75em;
+  display: block;
+  margin: 0.5em 0 0 1em;
   font-weight: 500;
 }
 
-.form-control-static {
-  padding: 0 25px;
-  font-size: 1em;
-  font-style: italic;
-  color: #333;
+.profile-container p {
+  white-space: pre-wrap;
+  border: 1px solid #ccc;
+  padding: 10px;
   background-color: #f9f9f9;
-}
-
-.experience-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.experience {
-  display: flex;
-  gap: 1em;
-}
-
-.year,
-.company {
-  display: flex;
-  flex-direction: column;
-}
-
-.year {
-  flex: 1;
-}
-
-.company {
-  flex: 2;
-}
-
-.year, .company {
-  text-align: left;
-}
-
-label {
-  font-weight: bold;
-}
-
-.form-row {
-  display: flex;
-  justify-content: space-between ;
+  border-radius: 4px;
 }

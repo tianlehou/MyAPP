@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FirebaseService } from '../../../../../../services/firebase.service';
 import { User } from '@angular/fire/auth';
@@ -15,10 +15,13 @@ export class ExperienceComponent implements OnInit {
   @Input() currentUser: User | null = null;
   profileForm!: FormGroup;
   userEmail: string | null = null;
+  editableFields: { [key: string]: boolean } = {};
+  isDeleteModalVisible = false;
+  experienceIndexToDelete: number | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
@@ -31,33 +34,35 @@ export class ExperienceComponent implements OnInit {
 
   private initializeForm(): void {
     this.profileForm = this.fb.group({
-      experience: this.fb.array([]), // Arreglo para experiencia laboral
+      experience: this.fb.array([]),
     });
   }
 
   private async loadUserData(): Promise<void> {
-    if (!this.userEmail) {
-      console.error('Error: Usuario no autenticado.');
-      return;
-    }
+    if (!this.userEmail) return;
 
     try {
       const userData = await this.firebaseService.getUserData(this.userEmail);
-
-      // Carga los datos de experiencia
-      const experiences = userData?.profileData?.experience || [];
-      const experienceArray = this.profileForm.get('experience') as FormArray;
-      experiences.forEach((exp: any) => {
-        const experienceGroup = this.fb.group({
-          year: [exp.year || '', Validators.required],
-          company: [exp.company || '', Validators.required],
-          role: [exp.role || '', Validators.required],
-          description: [exp.description || '', Validators.required],
-        });
-        experienceArray.push(experienceGroup);
-      });
+      this.populateExperiences(userData?.profileData?.experience || []);
     } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
+      console.error('Error loading experiences:', error);
     }
+  }
+
+  private populateExperiences(experiences: any[]): void {
+    const formArray = this.experienceArray;
+    formArray.clear();
+    experiences.forEach(exp => {
+      formArray.push(this.fb.group({
+        year: [exp.year || ''],
+        company: [exp.company || ''],
+        role: [exp.role || ''],
+        description: [exp.description || ''],
+      }));
+    });
+  }
+
+  get experienceArray(): FormArray {
+    return this.profileForm.get('experience') as FormArray;
   }
 }

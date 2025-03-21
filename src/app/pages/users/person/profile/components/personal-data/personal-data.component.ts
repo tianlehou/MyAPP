@@ -15,10 +15,11 @@ export class PersonalDataComponent implements OnInit {
   @Input() currentUser: User | null = null;
   profileForm!: FormGroup;
   userEmail: string | null = null;
+  editableFields: { [key: string]: boolean } = {};
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
@@ -39,21 +40,18 @@ export class PersonalDataComponent implements OnInit {
   }
 
   private async loadUserData(): Promise<void> {
-    if (!this.userEmail) {
-      console.error('Error: Usuario no autenticado.');
-      return;
-    }
+    if (!this.userEmail) return;
 
     try {
       const userData = await this.firebaseService.getUserData(this.userEmail);
       this.profileForm.patchValue({
         fullName: userData?.fullName || '',
-        cedula: userData?.profileData?.cedula || '',
-        phone: userData?.profileData?.phone || '',
-        direction: userData?.profileData?.direction || '',
+        cedula: userData?.profileData?.personalData?.cedula || '',
+        phone: userData?.profileData?.personalData?.phone || '',
+        direction: userData?.profileData?.personalData?.direction || '',
       });
     } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
+      console.error('Error loading user data:', error);
     }
   }
 }

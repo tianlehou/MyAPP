@@ -1,16 +1,12 @@
 <div class="profile-container">
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="profileForm">
     <div class="form-group">
       <div class="display-flex-space-between">
         <label for="languages">Idiomas:</label>
       </div>
 
       <div formArrayName="languages">
-        <div
-          *ngFor="let language of languagesArray.controls; let i = index"
-          [formGroupName]="i"
-          class="language-group"
-        >
+        <div *ngFor="let language of languagesArray.controls; let i = index" [formGroupName]="i" class="language-group">
           <div class="form-row display-flex-center">
             <!-- Idioma -->
             <div class="form-group third-width">
@@ -26,9 +22,7 @@
 
             <!-- Certificación -->
             <div class="form-group third-width">
-              <label [for]="'language-certification-' + i"
-                >Certificación:</label
-              >
+              <label [for]="'language-certification-' + i">Certificación:</label>
               <p>{{ language.value.certification || "No especificado" }}</p>
             </div>
           </div>

@@ -1,44 +1,31 @@
-<div class="skills-container">
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <div class="display-flex-space-between">
-        <label for="skills">Habilidades:</label>
-        <button type="button" class="btn btn-success btn-auto-width" id="skills-btn" (click)="addSkill()">
-          Agregar Habilidad
-        </button>
-      </div>
-
-      <div class="line"></div>
-
-      <div formArrayName="skills">
-        <div *ngFor="let skill of skillsArray.controls; let i = index" [formGroupName]="i" class="skill-group">
-          <div class="form-row">
-            <div class="form-group quarter-width">
-              <label for="name">Habilidad:</label>
-              <input type="text" id="name" formControlName="name" class="form-control" />
+<div class="profile-container">
+  <form [formGroup]="profileForm">
+    <div class="form-group"> <label>Habilidades:</label>
+      <ng-container *ngIf="profileForm.get('skills')?.value?.length > 0; else noSkills">
+        <ul class="skills-list">
+          <li *ngFor="let skill of profileForm.get('skills')?.value">
+            <div class="skill-item">
+              <div class="skill-detail">
+                <label>Habilidad:</label>
+                <p class="form-control-static">{{ skill.name || "No especificado" }}</p>
+              </div>
+              <div class="skill-detail">
+                <label>Nivel:</label>
+                <p class="form-control-static">{{ skill.proficiency || "No especificado" }}</p>
+              </div>
+              <div class="skill-detail">
+                <label>Certificación:</label>
+                <p class="form-control-static">{{ skill.certification || "No especificado" }}</p>
+              </div>
             </div>
-            <div class="form-group quarter-width">
-              <label for="proficiency">Nivel:</label>
-              <input type="text" id="proficiency" formControlName="proficiency" class="form-control" />
-            </div>
-            <div class="form-group quarter-width">
-              <label for="certification">Certificación:</label>
-              <input type="text" id="certification" formControlName="certification" class="form-control" />
-            </div>
-          </div>
+            <div class="line"></div>
+          </li>
+        </ul>
+      </ng-container>
 
-          <div class="button-row">
-            <button type="button" class="btn btn-danger delete-btn" (click)="confirmDeleteSkill(i)">
-              Eliminar
-            </button>
-            <button type="button" class="btn btn-secondary" (click)="toggleEdit('skills')">
-              {{ editableFields["skills"] ? "Guardar" : "Editar" }}
-            </button>
-          </div>
-
-          <div class="line"></div>
-        </div>
-      </div>
+      <ng-template #noSkills>
+        <p class="form-control-static">No especificado</p>
+      </ng-template>
     </div>
   </form>
 </div>

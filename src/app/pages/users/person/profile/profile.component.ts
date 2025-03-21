@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { Database, ref, get } from '@angular/fire/database';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 // Custom components
 import { CustomButtonComponent } from '../../../../shared/components/buttons/custom-button/custom-button.component';
 import { SidebarComponent } from '../../../../shared/components/buttons/sidebar/sidebar.component';
+
+// Components
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
 import { ExperienceComponent } from './components/experience/experience.component';
@@ -19,6 +22,7 @@ import { SkillsComponent } from './components/skills/skills.component';
   standalone: true,
   imports: [
     RouterModule,
+    CommonModule,
     CustomButtonComponent,
     SidebarComponent,
     ProfilePictureComponent,
@@ -36,7 +40,7 @@ export class ProfileComponent implements OnInit {
   currentUser: User | null = null;
   userRole: string | null = null;
 
-  constructor(private auth: Auth, private db: Database) {} // Inyectar Database
+  constructor(private auth: Auth, private db: Database) {}
 
   ngOnInit(): void {
     onAuthStateChanged(this.auth, async (user) => {
@@ -60,6 +64,8 @@ export class ProfileComponent implements OnInit {
         } catch (error) {
           console.error('Error al obtener el rol:', error);
         }
+      } else {
+        console.error('Usuario no autenticado.'); // Depuración
       }
     });
   }

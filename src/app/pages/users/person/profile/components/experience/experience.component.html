@@ -1,33 +1,18 @@
 <div class="profile-container">
-  <form [formGroup]="profileForm">
-    <!-- Experiencia Laboral -->
-    <div class="form-group">
+    <div class="form-group" [formGroup]="profileForm">
       <label>Experiencia Laboral:</label>
-      <ng-container *ngIf="
-          profileForm.get('experience')?.value?.length > 0;
-          else noExperience
-        ">
+      <ng-container *ngIf="profileForm.get('experience')?.value?.length > 0;
+          else noExperience">
         <ul class="experience-list">
           <li *ngFor="let exp of profileForm.get('experience')?.value">
-            <div class="experience">
-              <div class="year">
                 <label for="">Año:</label>
                 <p>{{ exp.year || "No especificado" }}</p>
-              </div>
-              <div class="company">
                 <label for="">Empresa:</label>
                 <p>{{ exp.company || "No especificado" }}</p>
-              </div>
-            </div>
-
-            <div class="role">
               <label for="">Rol:</label>
               <p>{{ exp.role || "No especificado" }}</p>
-            </div>
-            <div class="description">
               <label for="">Descripción:</label>
               <p>{{ exp.description || "No especificado" }}</p>
-            </div>
           </li>
         </ul>
       </ng-container>
@@ -35,5 +20,4 @@
         <p class="form-control-static">No especificado</p>
       </ng-template>
     </div>
-  </form>
 </div>
