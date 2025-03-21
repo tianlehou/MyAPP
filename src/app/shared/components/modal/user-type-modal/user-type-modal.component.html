@@ -5,12 +5,13 @@
   tabindex="-1"
   aria-labelledby="userTypeModalLabel"
   aria-hidden="true"
+  #userTypeModal
 >
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="userTypeModalLabel">
-          Selecciona tu tipo de usuario
+          Selecciona tu usuario:
         </h5>
         <button
           type="button"
@@ -20,10 +21,9 @@
         ></button>
       </div>
       <div class="modal-body text-center">
-        <p>¿Cómo deseas registrarte?</p>
         <div class="d-grid gap-3">
-          <a href="login-person" class="btn person-btn">Soy Persona</a>
-          <a href="signup-company" class="btn company-btn">Soy Empresa</a>
+          <a routerLink="/login-person" class="btn person-btn" (click)="closeModal()">Soy Persona</a>
+          <a routerLink="/signup-company" class="btn company-btn" (click)="closeModal()">Soy Empresa</a>
         </div>
       </div>
     </div>
